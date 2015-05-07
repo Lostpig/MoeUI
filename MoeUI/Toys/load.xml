@@ -1,0 +1,5 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Include file="Card\Card.xml"/>
+    <Include file="Remilia\Remilia.xml"/>
+    <Include file="Warning\Warning.xml"/>
+</Ui>

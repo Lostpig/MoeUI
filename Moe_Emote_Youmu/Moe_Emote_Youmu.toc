@@ -1,0 +1,7 @@
+﻿## Interface: 60000
+## Title: |cffe7cf1bMoe|r Emote 妖梦主题包
+## Notes: MoeUI 聊天表情 妖梦主题包
+## Version: 1.00
+## RequiredDeps: MoeUI
+
+Youmu.lua

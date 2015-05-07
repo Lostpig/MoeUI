@@ -1,0 +1,15 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Script file="Init.lua" />
+	<Script file="Core.lua" />
+    
+    <Script file="Elements\ClassIcons.lua"/>
+    <Script file="Elements\Cooldown.lua"/>
+    <Script file="Elements\Power.lua"/>
+    <Script file="Elements\RuneBar.lua"/>
+    
+    <Script file="Class\Monk.lua"/>
+    <Script file="Class\Priest.lua"/>
+    <Script file="Class\Shaman.lua"/>
+    <Script file="Class\DK.lua"/>
+    <Script file="Class\Rogue.lua"/>
+</Ui>

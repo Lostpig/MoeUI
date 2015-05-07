@@ -1,0 +1,4 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file='Functions.lua' />
+	<Script file='Animation.lua'/>
+</Ui>

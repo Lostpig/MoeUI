@@ -1,0 +1,4 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Include file="MoeLib\MoeLib.xml"/>
+    <Include file="oUF\oUF.xml"/>
+</Ui>

@@ -1,0 +1,9 @@
+﻿## Interface: 60000
+## Title: |cffe7cf1bMoe|r UI Dark主题包
+## Notes: MoeUI Dark主题包
+## Version: 1.00
+## Author: Lostpigz
+## X-Email:zjxszqc@Live.com
+## RequiredDeps: MoeUI
+
+Dark.lua

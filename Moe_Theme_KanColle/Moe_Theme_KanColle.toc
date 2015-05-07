@@ -1,0 +1,12 @@
+﻿## Interface: 60000
+## Title: |cffe7cf1bMoe|r UI 艦コレ主题包
+## Notes: MoeUI 艦コレ主题包
+## Version: 1.00
+## Author: Lostpigz
+## X-Email:zjxszqc@Live.com
+## RequiredDeps: MoeUI
+
+Global.lua
+GUI.lua
+UF.lua
+Other.lua

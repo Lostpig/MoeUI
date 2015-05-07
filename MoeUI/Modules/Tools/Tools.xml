@@ -1,0 +1,8 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="ClearFont.lua" />
+    <Script file="ClearFontTW.lua" />
+	<Script file="FastError.lua" />
+	<Script file="Minimap.lua" />
+    <Script file="SpellID.lua" />
+    <Script file="Talent.lua" />
+</Ui>

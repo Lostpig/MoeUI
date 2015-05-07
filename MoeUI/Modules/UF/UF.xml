@@ -1,0 +1,17 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">    
+    <Script file="plugins\castbar.lua" />
+	<Script file="plugins\ChiBar.lua" />
+	<Script file="plugins\DemonicFury.lua" />
+    <Script file="plugins\Ember.lua" />
+	<Script file="plugins\HolyPower.lua" />
+	<Script file="plugins\ShadowOrbs.lua" />
+    <Script file="plugins\Smooth.lua" />
+	<Script file="plugins\SoulShards.lua" />
+	<Script file="plugins\tags.lua" />
+    <Script file="plugins\ThreatBar.lua" />
+	<Script file="plugins\TotemBar.lua" />
+
+    <Script file="Lib.lua" />
+	<Script file="Specific.lua" />
+	<Script file="Factory.lua" />
+</Ui>

@@ -1,0 +1,6 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Script file='ButtonStyle.lua' />
+	<Script file='Core.lua' />
+	<Script file='Keybind.lua' />
+	<Script file='RangeColors.lua'/>
+</Ui>

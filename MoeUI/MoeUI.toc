@@ -1,0 +1,19 @@
+﻿## Interface: 60000
+## Title: |cfffefe22Moe|r UI
+## Credits: zork, Haste, Neavo, Qulight, Jon Crenshaw, Monolit, Cargor, 堂吉先生, surgesoft, Tuller
+## Author: Lostpigz
+## Notes: Moe UI 核心
+## Version: 2.0
+## X-MoeUI: Moe
+## SavedVariables: MoeDB
+
+Init.lua
+Media\load.xml
+Config\load.xml
+Lib\load.xml
+Core\load.xml
+Theme\load.xml
+
+Modules\load.xml
+Toys\load.xml
+

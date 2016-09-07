@@ -121,7 +121,7 @@ local StyleSkada = function()
         },
 	}
     
-    C_Timer.After(4,function()
+    C_Timer.After(4, function()
         SkadaBarWindowSkada.button:ClearAllPoints()
         SkadaBarWindowSkada.button:SetPoint("BOTTOM", SkadaBarWindowSkada, "TOP", 0, 3)
     end)
@@ -402,33 +402,33 @@ local function PlayerTargetStyle(frame, unit)
 	middleLine:SetWidth(frame.Health:GetWidth() + 2)
 	middleLine:SetHeight(style_lineheight)
 	middleLine:SetPoint("TOP", frame.Health, "BOTTOM", 0, 0)
-	middleLine:SetTexture(r, g, b, a)
+	middleLine:SetTexture(Media.Texture.Blank)
 
 	local hLeftBr = frame:CreateTexture(nil, 'OVERLAY', frame)
 	hLeftBr:SetWidth(style_brwidth)
 	hLeftBr:SetHeight(frame.Health:GetHeight())
 	hLeftBr:SetPoint("RIGHT", frame.Health, "LEFT", 0, 0)
 	hLeftBr:SetGradientAlpha("VERTICAL", r, g, b, a, r, g, b, 0)
-	hLeftBr:SetTexture(1, 1, 1, 1)
+	hLeftBr:SetTexture(Media.Texture.Blank)
 	local hRightBr = frame:CreateTexture(nil, 'OVERLAY', frame)
 	hRightBr:SetWidth(style_brwidth)
 	hRightBr:SetHeight(frame.Health:GetHeight())
 	hRightBr:SetPoint("LEFT", frame.Health, "RIGHT", 0, 0)
 	hRightBr:SetGradientAlpha("VERTICAL", r, g, b, a, r, g, b, 0)
-	hRightBr:SetTexture(1, 1, 1, 1)
+	hRightBr:SetTexture(Media.Texture.Blank)
 	
 	local pLeftBr = frame:CreateTexture(nil, 'OVERLAY', frame)
 	pLeftBr:SetWidth(style_brwidth)
 	pLeftBr:SetHeight(frame.Power:GetHeight())
 	pLeftBr:SetPoint("RIGHT", frame.Power, "LEFT", 0, 0)
 	pLeftBr:SetGradientAlpha("VERTICAL", r, g, b, 0, r, g, b, a)
-	pLeftBr:SetTexture(1, 1, 1, 1)
+	pLeftBr:SetTexture(Media.Texture.Blank)
 	local pRightBr = frame:CreateTexture(nil, 'OVERLAY', frame)
 	pRightBr:SetWidth(style_brwidth)
 	pRightBr:SetHeight(frame.Power:GetHeight())
 	pRightBr:SetPoint("LEFT", frame.Power, "RIGHT", 0, 0)
 	pRightBr:SetGradientAlpha("VERTICAL", r, g, b, 0, r, g, b, a)
-	pRightBr:SetTexture(1, 1, 1, 1)
+	pRightBr:SetTexture(Media.Texture.Blank)
 	
 	CreateMoveArrow(frame, unit, "Health")
 	CreateMoveArrow(frame, unit, "Power")
@@ -441,7 +441,7 @@ local function PetToTStyle(frame, unit)
 	bottomLine:SetWidth(frame.Health:GetWidth())
 	bottomLine:SetHeight(style_lineheight)
 	bottomLine:SetPoint("TOP", frame.Health, "BOTTOM", 0, 0)
-	bottomLine:SetTexture(1, 1, 1, 1)
+	bottomLine:SetTexture(Media.Texture.Blank)
 
 	if unit == "pet" then
 		frame:SetPoint("BOTTOMRIGHT", MoeUF.FrameList["player"].Health, "BOTTOMLEFT", -1, 0)
@@ -469,12 +469,13 @@ local function CastBarStyle(bar, unit)
 	local line = bar:CreateTexture(nil, 'OVERLAY', bar)
 	line:SetWidth(bar:GetWidth() + 2)
 	line:SetHeight(style_lineheight)
-	line:SetTexture(r, g, b, a)
+	line:SetTexture(Media.Texture.Blank)
 	
 	local a1, a2 = a, 0
 	if (unit == "player") then 
 		a1, a2 = 0, a 
 		Lib.Flip(bar.Spark, "VERTICAL")
+        Lib.Flip(bar.SafeZone, "VERTICAL")
 		Lib.Flip(bar:GetStatusBarTexture(), "VERTICAL")
 		line:SetPoint("BOTTOM", bar, "TOP", 0, 0)
 	else
@@ -486,13 +487,13 @@ local function CastBarStyle(bar, unit)
 	hLeftBr:SetHeight(bar:GetHeight())
 	hLeftBr:SetPoint("RIGHT", bar, "LEFT", 0, 0)
 	hLeftBr:SetGradientAlpha("VERTICAL", r, g, b, a1, r, g, b, a2)
-	hLeftBr:SetTexture(1, 1, 1, 1)
+	hLeftBr:SetTexture(Media.Texture.Blank)
 	local hRightBr = bar:CreateTexture(nil, 'OVERLAY', bar)
 	hRightBr:SetWidth(style_brwidth)
 	hRightBr:SetHeight(bar:GetHeight())
 	hRightBr:SetPoint("LEFT", bar, "RIGHT", 0, 0)
 	hRightBr:SetGradientAlpha("VERTICAL", r, g, b, a1, r, g, b, a2)
-	hRightBr:SetTexture(1, 1, 1, 1)
+	hRightBr:SetTexture(Media.Texture.Blank)
 end
 local function GlobalStyle(frames)
     if frames["player"].ThreatBar then
@@ -635,6 +636,11 @@ local UFTheme = {
 					color = {r = .05, g = .05, b = .05, a = .9},
 				},
 			},
+			highlight = {
+				Texture = bar_texture2,
+				flipv = true,
+				Color = {160/255, 160/255, 160/255, .3},
+			},
 			tags = {
 				name = { str = "[color][name] | [dperhp]", font = Media.Fonts.T, size = 12, flag = "THINOUTLINE", align = "RIGHT", anchor = "TOPRIGHT", relative = "BOTTOMRIGHT", x = 0, y = -2, },
 				--perhp = { str = "[dperhp]", font = Media.FONT, size = 12, flag = "THINOUTLINE", align = "RIGHT", anchor = "RIGHT", relative = "RIGHT", x = 0, y = 0, },
@@ -654,6 +660,11 @@ local UFTheme = {
 					texture = bar_texture2,
 					color = {r = .05, g = .05, b = .05, a = .9},
 				},
+			},
+			highlight = {
+				Texture = bar_texture2,
+				flipv = true, fliph = true, 
+				Color = {160/255, 160/255, 160/255, .3},
 			},
 			tags = {
 				name = { str = "[dperhp] | [color][name]", font = Media.Fonts.T, size = 12, flag = "THINOUTLINE", align = "LEFT", anchor = "TOPLEFT", relative = "BOTTOMLEFT", x = 0, y = -2, },
@@ -801,17 +812,19 @@ local function StyleBarSwitch(switch)
     Moe.Lib.CreatePanel({   
         name = "BarSwitch_BG", parent = "UIParent",				
         point = {"BOTTOM", 0, 12},   
-        texture = bar_texture,
+        texture = Media.Texture.Arrow,
         level = 1,
-        height = 2, width = 360,
+        height = 15, width = 15,
         color = {1, 1, 1, .85},
 	})
 end
 local function EnSwitch(self)
-    self.bg:SetVertexColor(1, 1, 1, .85)
+    --self.bg:SetVertexColor(1, 1, 1, .85)
+	Lib.Flip(self.bg, "VERTICAL")
 end
 local function DisSwitch(self)
-    self.bg:SetVertexColor(.4, .4, .4, .85)
+    --self.bg:SetVertexColor(.4, .4, .4, .85)
+	Lib.Flip(self.bg, "VERTICAL")
 end
 local ButtonStyle = {
     backdrop = {
@@ -869,15 +882,15 @@ local ButtonStyle = {
 }
 local SwitchStyle = {
     show = true,
-    Enter = function(self) self:SetAlpha(.9) end,
-    Leave = function(self) self:SetAlpha(.6) end,
-    texture = Media.Bar.GradCE,
-    point = {"BOTTOM", 0, 2},
-    color = {.95, .94, .96, .6},
+    Enter = function(self) self.bg:SetVertexColor(.95, .95, .25, .8) end,
+    Leave = function(self) self.bg:SetVertexColor(.95, .95, .95, .8) end,
+    texture = Media.Texture.Arrow,
+    point = {"BOTTOMRIGHT", "UIParent", "BOTTOM", -183, 17},
+    color = {.95, .95, .95, .8},
     enable = EnSwitch,
     disable = DisSwitch,
-    width = 128, height = 7,
-    style = StyleBarSwitch,
+    width = 15, height = 8,
+    --style = StyleBarSwitch,
 }
 local ActBarTheme = {
     Button = ButtonStyle,

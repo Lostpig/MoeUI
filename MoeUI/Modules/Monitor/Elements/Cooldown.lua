@@ -16,7 +16,7 @@ local function ClearUp(frame)
 end
 local function IconUpdate(self)
     local isUsable, notEnoughMana = IsUsableSpell(self.SpellID)
-    local inrange = IsSpellInRange(self.Slot, "spell")
+    local inrange = self.Slot and IsSpellInRange(self.Slot, "spell") or nil
 
     if (not isUsable) then self.Icon:SetVertexColor(.3,.3,.3)
     elseif inrange == 0 then self.Icon:SetVertexColor(1,.2,.2) 
@@ -39,7 +39,7 @@ local function IconUpdate(self)
     end
     if charges < maxcharges then
         cooldown:Show()
-        CooldownFrame_SetTimer(cooldown, cstart, cduration, 1)
+        CooldownFrame_Set(cooldown, cstart, cduration, 1)
     else
         cooldown:Hide()
     end
@@ -116,7 +116,7 @@ local FrequentUpdate = function(self, elapsed)
 end
 local Event = function(self, event, ...)
     if event == "ACTIVE_TALENT_GROUP_CHANGED" or event == "CONFIRM_TALENT_WIPE" or
-       event == "PLAYER_TALENT_UPDATE" 
+       event == "PLAYER_TALENT_UPDATE" or event == "UPDATE_SHAPESHIFT_FORM"
     then
         return (self.Change or Change)(self, event, ...)
     else
@@ -127,6 +127,7 @@ local Enable = function(self)
     self:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
     self:RegisterEvent('CONFIRM_TALENT_WIPE')
     self:RegisterEvent('PLAYER_TALENT_UPDATE')
+    self:RegisterEvent('UPDATE_SHAPESHIFT_FORM')
     
     if self.Set.frequentUpdates and self.Set.frequentUpdates > 0 then
         self.timer = 0

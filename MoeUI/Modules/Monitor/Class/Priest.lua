@@ -28,18 +28,6 @@ local PriestSet = {
         anchor = "TOP", relative = "TOP", x = 0, y = -15,
         frequentUpdates = false
     },
-    ShadowOrbs = {
-        width = 228, height = 8, spacing = 5,
-        anchor = "TOP", relative = "TOP", x = 0, y = -2,
-        texture = Media.Texture.Blank,
-        customcolor = {
-            [1] = {r = 0.72, g = 0.17, b = 0.96},
-            [2] = {r = 0.72, g = 0.17, b = 0.96},
-            [3] = {r = 0.72, g = 0.17, b = 0.96},
-            [4] = {r = 0.72, g = 0.17, b = 0.96},
-            [5] = {r = 0.96, g = 0.17, b = 0.34},
-        }
-    },
     Power = {
         unit = "player",
         width = 228, height = 6, 
@@ -50,22 +38,33 @@ local PriestSet = {
 local CDSpellList = {
     [1] = {	--戒律
         {SpellID =  47540}, -- 苦修
-        {SpellID = 129250}, -- 真言术:慰
-        {SpellID =  81700}, -- 天使长
         {SpellID = 120517}, -- 光晕
         {SpellID = 110744}, -- 神圣之星
         {SpellID = 121135}, -- 瀑流
         {SpellID =  10060},	-- 能量灌注
         {SpellID =  62618}, -- 真言术：障
+		{SpellID = 207946}, -- 圣光之怒
+    },
+    [2] = {	--戒律
+        {SpellID =  88625}, -- 真言术:罚
+        {SpellID =  88684}, -- 真言术:罚
+        {SpellID =  88685}, -- 真言术:罚
+        {SpellID =  34861}, -- 环
+        {SpellID =  33076}, -- 愈合
+        {SpellID = 129250}, -- 真言术:慰
+        {SpellID = 120517}, -- 光晕
+        {SpellID = 110744}, -- 神圣之星
+        {SpellID = 121135}, -- 瀑流
+        {SpellID =  10060},	-- 能量灌注
+        {SpellID =  64843}, -- 赞美诗
     },
     [3] = {	--暗影
         {SpellID =   8092},	-- 心爆
         {SpellID =  32379},	-- 灭
-        {SpellID = 120644}, -- 光晕
-        {SpellID = 122121}, -- 神圣之星
-        {SpellID = 127632}, -- 瀑流
         {SpellID = 123040}, -- 摧心魔
         {SpellID =  34433}, -- 暗影魔
+		{SpellID = 228260}, -- 虚空爆发
+		{SpellID = 205065}, -- 虚空洪流
     },
 }
 
@@ -82,18 +81,14 @@ local Create = function()
     for rname, rset in next, PriestSet.Regions do
         MM:AddRegion(rname, rset)
     end
-    print(123)
-    local CDBar     = MM:Spawn("Cooldown",   "PriestRegion", "PriestCDBar",   PriestSet.Cooldown, CDSpellList)
-    local ShadowOrb = MM:Spawn("ClassIcons", "PriestRegion", "ShadowOrbsBar", PriestSet.ShadowOrbs)
-    
-    ShadowOrb.PostChange = StylePoint
-    --PowerBar.PostChange = StyleBar
+
+    local CDBar     = MM:Spawn("Cooldown", "PriestRegion", "PriestCDBar",   PriestSet.Cooldown, CDSpellList)
 end
 local Start = function()
-    MM:EnableElements("PriestRegion", "PriestCDBar", "ShadowOrbsBar")
+    MM:EnableElements("PriestRegion", "PriestCDBar")
 end
 local Pause = function()
-    MM:DisableElements("PriestRegion", "PriestCDBar", "ShadowOrbsBar")
+    MM:DisableElements("PriestRegion", "PriestCDBar")
 end
 
 MM:AddClassSet("PRIEST", Create, Start, Pause)

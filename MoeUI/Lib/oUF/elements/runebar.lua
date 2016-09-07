@@ -43,12 +43,7 @@ if select(2, UnitClass("player")) ~= "DEATHKNIGHT" then return end
 local parent, ns = ...
 local oUF = ns.oUF
 
-oUF.colors.runes = {
-	{1, 0, 0},   -- blood
-	{0, .5, 0},  -- unholy
-	{0, 1, 1},   -- frost
-	{.9, .1, 1}, -- death
-}
+oUF.colors.runes = {0, 1, 1}
 
 local runemap = { 1, 2, 5, 6, 3, 4 }
 
@@ -64,8 +59,8 @@ end
 
 local UpdateType = function(self, event, rid, alt)
 	local runes = self.Runes
-	local rune = runes[runemap[rid]]
-	local colors = self.colors.runes[GetRuneType(rid) or alt]
+	local rune = runes.points[runemap[rid]]
+	local colors = self.colors.runes
 	local r, g, b = colors[1], colors[2], colors[3]
 
 	rune:SetStatusBarColor(r, g, b)
@@ -82,7 +77,7 @@ end
 
 local UpdateRune = function(self, event, rid)
 	local runes = self.Runes
-	local rune = runes[runemap[rid]]
+	local rune = runes.points[runemap[rid]]
 	if(not rune) then return end
 
 	if(UnitHasVehicleUI'player') then
@@ -92,6 +87,7 @@ local UpdateRune = function(self, event, rid)
 	end
 
 	local start, duration, runeReady = GetRuneCooldown(rid)
+    if(start == nil and runeReady == nil) then return end
 	if(runeReady) then
 		rune:SetMinMaxValues(0, 1)
 		rune:SetValue(1)
@@ -125,7 +121,7 @@ local Enable = function(self, unit)
 		runes.ForceUpdate = ForceUpdate
 
 		for i=1, 6 do
-			local rune = runes[runemap[i]]
+			local rune = runes.points[runemap[i]]
 			if(rune:IsObjectType'StatusBar' and not rune:GetStatusBarTexture()) then
 				rune:SetStatusBarTexture[[Interface\TargetingFrame\UI-StatusBar]]
 			end

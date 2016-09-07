@@ -46,7 +46,7 @@ local CDSpellList = {
 
 local StylePoint = function(self, unit, powertype, maxnum)
     for i = 1 , maxnum do 
-        Lib.CreateBorder(self[i], 1, {0,0,0,0}, {1,1,1,.8})
+        Lib.CreateBorder(self.points[i], 1, {0,0,0,0}, {1,1,1,.8})
     end
 end
 local StyleBar = function(self, unit, powertype)

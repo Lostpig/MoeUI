@@ -121,6 +121,39 @@ oUF.Tags.Methods["powercolor"]  = function(unit)
 end
 oUF.Tags.Events["powercolor"] = "UNIT_POWER UNIT_MAXPOWER"
 
+oUF.Tags.Methods["powercolor"]  = function(unit)
+	local powerType, powerToken, altR, altG, altB = UnitPowerType(unit)
+	local power = UnitPower(unit)
+	local color = "|cffA0A0A0"
+	if powerType == 0 then
+		color = hex(0,.5,.8)
+	elseif powerType == 1 then
+		color = hex(PowerBarColor["RAGE"])
+	elseif powerType == 2 then
+		color = hex(PowerBarColor["FOCUS"])
+	elseif powerType == 3 then
+		color = hex(PowerBarColor["ENERGY"])
+	elseif powerType == 6 then
+		color = hex(PowerBarColor["RUNIC_POWER"])
+	end
+	return format("%s%s|r", color, SVal(power))
+end
+oUF.Tags.Events["powercolor"] = "UNIT_POWER UNIT_MAXPOWER"
+
+oUF.Tags.Methods["eclipsecolor"]  = function(unit)
+    local p = UnitPower('player', SPELL_POWER_ECLIPSE)
+    local color = "|cffFFFFFF"
+    if p < 0 then 
+        p = -p
+        color = "|cff6BAFFF"
+    elseif p > 0 then 
+        color = "|cffFFA51F"
+    end
+    return format("%s%s|r", color, p)
+end
+oUF.Tags.Events["eclipsecolor"] = "UNIT_POWER"
+        
+        
 oUF.Tags.Methods["level"] = function(unit)
 	local c = UnitClassification(unit)
 	local l = UnitLevel(unit)
@@ -171,8 +204,8 @@ oUF.Tags.Methods["color"] = function(unit)
 	
 	if UnitIsDead(unit) or UnitIsGhost(unit) or not UnitIsConnected(unit) then
 		return "|cffA0A0A0"
-	elseif (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then
-		return hex(oUF.colors.tapped)
+	--elseif (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then
+	--	return hex(oUF.colors.tapped)
 	elseif (UnitIsPlayer(unit)) then
 		return hex(oUF.colors.class[class])
 	elseif reaction then

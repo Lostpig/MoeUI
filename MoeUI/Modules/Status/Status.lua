@@ -25,7 +25,6 @@ local Language = {
 		["Mastery"]		= "精通",
 		["Crit"]		= "暴击",
 		["Haste"]		= "急速",
-		["Multistrike"]	= "溅射",
 		["Versatility"]	= "全能",
 		
 		["AttackSpeed"]	= "攻速",
@@ -62,7 +61,6 @@ local STASTR = {
 	MASTERY 	= "|cff33ff00%.2F%%|r",
 	CRIT 		= "|cffff8800%.2F%%|r",
 	HASTE 		= "|cff33aaff%.2F%%|r",
-	MULTISTRIKE = "|cffcc8844%.2F%%|r",
 	VERSATILITY = "|cffffff33%.2F%%|r/|cffffff33%.2F%%|r",
 	
 	ATTACKSPEED = "|cff33ff99%.2F|r",
@@ -73,13 +71,13 @@ local STASTR = {
 	FOCUSREGEN 	= "|cff" .. Lib.ColorTurn(PowerBarColor["FOCUS"].r,PowerBarColor["FOCUS"].g,PowerBarColor["FOCUS"].b) .. "%d|r",
 	MANAREGEN 	= "|cff13e6ff%d|r",
 	
-	BONUSARMOR 	= "|cffff3333%d|r",
-	DODGE 		= "|cffff3333%d|r",
-	PARRY		= "|cffff3333%d|r",
-	BLOCK		= "|cffff3333%d|r",
+	BONUSARMOR 	= "|cffa0ff63%d|r",
+	DODGE 		= "|cff1687f1%.1F%%|r",
+	PARRY		= "|cffd546ef%.1F%%|r",
+	BLOCK		= "|cff26fa94%.1F%%|r",
 	
-	LIFESTEAL	= "|cff888888%d|r",
-	AVOIDANCE	= "|cff888888%d|r",
+	LIFESTEAL	= "|cffff9911%.1F%%|r",
+	AVOIDANCE	= "|cff9911ff%.1F%%|r",
 }
 
 local ClassSets = {
@@ -100,11 +98,13 @@ local ClassSets = {
 	--术士        3系都是法系DPS
 	["WARLOCK"]     = {[1] = DUTY.SPELL,  [2] = DUTY.SPELL,  [3] = DUTY.SPELL, },
 	--圣骑士      1奶2放3惩戒
-	["PALADIN"]     = {[1] = DUTY.HEALTH,   [2] = DUTY.TANK,  [3] = DUTY.MELEE, },
+	["PALADIN"]     = {[1] = DUTY.HEALTH, [2] = DUTY.TANK,   [3] = DUTY.MELEE, },
 	--死亡骑士    1血2冰3邪
 	["DEATHKNIGHT"]	= {[1] = DUTY.TANK,   [2] = DUTY.MELEE,  [3] = DUTY.MELEE, },
 	--武僧        1酒仙2织雾3踏风
 	["MONK"]		= {[1] = DUTY.TANK,   [2] = DUTY.HEALTH, [3] = DUTY.MELEE, },
+    --恶魔猎手    1浩劫2复仇
+    ["DEMONHUNTER"] = {[1] = DUTY.MELEE,  [2] = DUTY.TANK, },
 }
 local StatusSets = {
 	--基础属性
@@ -141,7 +141,7 @@ local StatusSets = {
 	["Armor"] = {
 		Des = L["Armor"],
 		Value = function()
-			local bonusArmor = UnitBonusArmor("player")
+			local bonusArmor = UnitArmor("player")
 			return format(STASTR.ARMOR, bonusArmor)
 		end
 	},
@@ -178,12 +178,6 @@ local StatusSets = {
 		Des = L["Haste"],
 		Value = function(duty)
 			return format(STASTR.HASTE, GetHaste())
-		end
-	},
-	["Multistrike"] = {
-		Des = L["Multistrike"],
-		Value = function(duty)
-			return format(STASTR.MULTISTRIKE, GetMultistrike())
 		end
 	},
 	["Versatility"] = {
@@ -278,17 +272,17 @@ local DutySets = {
 		"Armor",
 		"Versatility",
 		"Mastery",
-		"BonusArmor",
+		--"BonusArmor",
 		"Dodge",
 		"Parry",
 		"Block",
+        "LifeSteal"
 	},
 	[DUTY.MELEE] = {
 		"AttackPower",
 		"Mastery",
 		"Crit",
 		"Haste",
-		"Multistrike",
 		"Versatility",
 		"AttackSpeed",
 	},
@@ -297,7 +291,6 @@ local DutySets = {
 		"Mastery",
 		"Crit",
 		"Haste",
-		"Multistrike",
 		"Versatility",
 		"LifeSteal",
 	},
@@ -306,7 +299,6 @@ local DutySets = {
 		"Mastery",
 		"Crit",
 		"Haste",
-		"Multistrike",
 		"Versatility",
 		"Regen",
 	},

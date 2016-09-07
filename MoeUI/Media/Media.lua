@@ -59,15 +59,16 @@ Media.Button = {
     Shadow  = path..[=[button\outer_shadow]=],
 }
 
-if LibStub then
-    local lsm = LibStub("LibSharedMedia-3.0")
-    lsm:Register("statusbar", "GradientV",  path..[=[bar\gradientBar]=])
-    lsm:Register("statusbar", "GradientH",  path..[=[bar\gradientHBar]=])
-    lsm:Register("statusbar", "GradientD",  path..[=[bar\gradientCBar]=])
-    lsm:Register("statusbar", "GradientC",  path..[=[bar\gradientCEBar]=])
-    lsm:Register("statusbar", "GradientLH", path..[=[bar\gradientLHBar]=])
-    
-    lsm:Register("texture",   "GradientLH", path..[=[bar\gradientLHBar]=])
-    lsm:Register("texture",   "GradientC",  path..[=[bar\gradientCEBar]=])
+Media.Register = function()
+    if LibStub then
+        local lsm = LibStub("LibSharedMedia-3.0")
+        lsm:Register("statusbar", "GradientV",  path..[=[bar\gradientBar]=])
+        lsm:Register("statusbar", "GradientH",  path..[=[bar\gradientHBar]=])
+        lsm:Register("statusbar", "GradientD",  path..[=[bar\gradientCBar]=])
+        lsm:Register("statusbar", "GradientC",  path..[=[bar\gradientCEBar]=])
+        lsm:Register("statusbar", "GradientLH", path..[=[bar\gradientLHBar]=])
+        
+        lsm:Register("texture",   "GradientLH", path..[=[bar\gradientLHBar]=])
+        lsm:Register("texture",   "GradientC",  path..[=[bar\gradientCEBar]=])
+    end
 end
-

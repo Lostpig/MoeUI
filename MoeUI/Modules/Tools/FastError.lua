@@ -48,7 +48,7 @@ local TextTwo = SecondErrorFrame:CreateFontString(nil, "OVERLAY")
 --/Alert Switch
 local state = 0
 FirstErrorFrame:SetScript("OnHide",function() state = 0 end)
-local allertIt = function(_,_,error)
+local allertIt = function(_,_,_,error)
 	if state == 0 then 
 		TextOne:SetText(error)
 		FadingFrame_Show(FirstErrorFrame)

@@ -1,4 +1,4 @@
-if select(2,UnitClass("player")) ~= "SHAMAN" then return end
+Ôªøif select(2,UnitClass("player")) ~= "HUNTER" then return end
 
 local addon, namespace = ...
 local Modules = namespace.Moe.Modules
@@ -35,18 +35,27 @@ local MonitorSet = {
         frequentUpdates = false,
     }
 }
-
 local CDSpellList = {
-    --[1] = {	--‘™Àÿ    },
-    [2] = {	--‘ˆ«ø
-        {SpellID = 201897}, --  Ø»≠
-        {SpellID = 193796}, -- ª…‡
-        {SpellID = 197214}, -- ª…‡
-        {SpellID =  17364}, -- ∑Á±©¥Úª˜
+    [2] = {	--Â∞ÑÂáª
+        {SpellID = 185901}, -- Ê†áËÆ∞
+        {SpellID = 214579}, -- ÂìçÂ∞æËõá
+        {SpellID = 131894}, -- ÈªëÈ∏¶
+        {SpellID = 120360}, -- ÂºπÂπï
     },
-    --[3] = {   --ª÷∏¥    },
+    [3] = {	--ÁîüÂ≠ò
+        {SpellID = 185855}, -- Ë£ÇÁóï
+        {SpellID = 190928},	-- Áå´Èº¨
+        {SpellID = 186270}, -- ÁåõÁ¶Ω
+        {SpellID = 202800},	-- ‰æßÁøº
+        {SpellID = 191433}, -- ÁàÜÁÇ∏Èô∑Èò±
+    }
 }
 
+local StylePoint = function(self, unit, powertype, maxnum)
+    for i = 1 , maxnum do 
+        Lib.CreateBorder(self[i], 1, {0,0,0,0}, {1,1,1,.8})
+    end
+end
 local StyleBar = function(self, unit, powertype)
     Lib.CreateBorder(self, 1, {0,0,0,0}, {1,1,1,.8})
     
@@ -63,8 +72,8 @@ local Create = function()
     for rname, rset in next, MonitorSet.Regions do
         MM:AddRegion(rname, rset)
     end
-    
-    local CDBar = MM:Spawn("Cooldown", "MonitorRegion", "MonitorCDBar", MonitorSet.Cooldown, CDSpellList)
+
+    local CDBar    = MM:Spawn("Cooldown", "MonitorRegion", "MonitorCDBar", MonitorSet.Cooldown, CDSpellList)
     local PowerBar = MM:Spawn("Power"   , "MonitorRegion", "MonitorPower", MonitorSet.Power)
     
     StyleBar(PowerBar)
@@ -76,5 +85,4 @@ local Pause = function()
     MM:DisableElements("MonitorRegion", "MonitorCDBar", "MonitorPower")
 end
 
-MM:AddClassSet("SHAMAN", Create, Start, Pause)
-
+MM:AddClassSet("HUNTER", Create, Start, Pause)

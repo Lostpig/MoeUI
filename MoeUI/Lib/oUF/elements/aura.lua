@@ -54,7 +54,7 @@ local createAuraIcon = function(icons, index)
 	button:SetScript("OnEnter", OnEnter)
 	button:SetScript("OnLeave", OnLeave)
 
-	table.insert(icons, button)
+	table.insert(icons.buttons, button)
 
 	button.parent = icons
 	button.icon = icon
@@ -84,7 +84,7 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 	local name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter)
 	if(name) then
 		local n = visible + offset + 1
-		local icon = icons[n]
+		local icon = icons.buttons[n]
 		if(not icon) then
 			icon = (icons.CreateIcon or createAuraIcon) (icons, n)
 		end
@@ -156,8 +156,8 @@ local SetPosition = function(icons, x)
 		local cols = math.floor(icons:GetWidth() / sizex + .5)
 		local rows = math.floor(icons:GetHeight() / sizey + .5)
 
-		for i = 1, #icons do
-			local button = icons[i]
+		for i = 1, #icons.buttons do
+			local button = icons.buttons[i]
 			if(button and button:IsShown()) then
 				if(gap and button.debuff) then
 					if(col > 0) then
@@ -198,8 +198,8 @@ local filterIcons = function(unit, icons, filter, limit, isDebuff, offset, dontH
 	end
 
 	if(not dontHide) then
-		for i = visible + offset + 1, #icons do
-			icons[i]:Hide()
+		for i = visible + offset + 1, #icons.buttons do
+			icons.buttons[i]:Hide()
 		end
 	end
 
@@ -267,18 +267,21 @@ local Enable = function(self)
 		local buffs = self.Buffs
 		if(buffs) then
 			buffs.__owner = self
+            buffs.buttons = {}
 			buffs.ForceUpdate = ForceUpdate
 		end
 
 		local debuffs = self.Debuffs
 		if(debuffs) then
 			debuffs.__owner = self
+            debuffs.buttons = {}
 			debuffs.ForceUpdate = ForceUpdate
 		end
 
 		local auras = self.Auras
 		if(auras) then
 			auras.__owner = self
+            auras.buttons = {}
 			auras.ForceUpdate = ForceUpdate
 		end
 

@@ -50,33 +50,21 @@ local MonkSet = {
 }
 local CDSpellList = {
     [2] = {	--织雾
-        {SpellID =  115294}, -- 法力茶
-        {SpellID =  123761}, -- 法力茶(雕文)
-        {SpellID =  116680}, -- 雷光聚神茶
-        {SpellID =  115098}, -- 真气波
-        {SpellID =  123986}, -- 真气爆裂
-        {SpellID =  115399}, -- 真气酒
-        {SpellID =  115460}, -- 引爆真气
-        {SpellID =  116849}, -- 作茧缚命
-        {SpellID =  115310}, -- 还魂术
-        {SpellID =  115151}, -- 复苏之雾
+
     },
     [3] = { --踏风
         {SpellID =  107428}, -- 旭日东升踢
         {SpellID =  113656}, -- 怒雷破
-        {SpellID =  115098}, -- 真气波
-        {SpellID =  115072}, -- 移花接木
         {SpellID =  115080}, -- 轮回之触
-        {SpellID =  152175}, -- 风暴打击
-        {SpellID =  152173}, -- 屏气凝神
-        {SpellID =  115288}, -- 豪能酒
+        {SpellID =  152175}, -- 升龙霸
         {SpellID =  123904}, -- 白虎
+		{SpellID =  205320}, -- 风领主之击
     },
 }
 
 local StylePoint = function(self, unit, powertype, maxnum)
     for i = 1 , maxnum do 
-        Lib.CreateBorder(self[i], 1, {0,0,0,0}, {1,1,1,.8})
+        Lib.CreateBorder(self.points[i], 1, {0,0,0,0}, {1,1,1,.8})
     end
 end
 local StyleBar = function(self, unit, powertype)

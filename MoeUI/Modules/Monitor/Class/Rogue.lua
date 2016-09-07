@@ -37,7 +37,8 @@ local RogueSet = {
             [2] = {r = 0.96, g = 0.96, b = 0.04},
             [3] = {r = 0.96, g = 0.96, b = 0.04},
             [4] = {r = 0.96, g = 0.96, b = 0.04},
-            [5] = {r = 0.96, g = 0.64, b = 0.04},
+            [5] = {r = 0.96, g = 0.32, b = 0.04},
+            [6] = {r = 0.96, g = 0.16, b = 0.04},
         }
     },
     Power = {
@@ -53,7 +54,7 @@ local CDSpellList = {
 
 local StylePoint = function(self, unit, powertype, maxnum)
     for i = 1 , maxnum do 
-        Lib.CreateBorder(self[i], 1, {0,0,0,0}, {1,1,1,.8})
+        Lib.CreateBorder(self.points[i], 1, {0,0,0,0}, {1,1,1,.8})
     end
 end
 local StyleBar = function(self, unit, powertype)
@@ -61,22 +62,22 @@ local StyleBar = function(self, unit, powertype)
 end
 
 local Create = function()
-    for rname, rset in next, MonkSet.Regions do
+    for rname, rset in next, RogueSet.Regions do
         MM:AddRegion(rname, rset)
     end
     
     local CDBar      = MM:Spawn("Cooldown"  , "MonitorRegion", "CDBar"  , RogueSet.Cooldown, CDSpellList)
-    local CpointsBar = MM:Spawn("ClassIcons", "MonitorRegion", "Cpoints", RogueSet.CPoint)
+    local CpointsBar = MM:Spawn("ClassIcons", "MonitorRegion", "CPoints", RogueSet.CPoint)
     local PowerBar   = MM:Spawn("Power"     , "MonitorRegion", "Power"  , RogueSet.Power)
     
     CpointsBar.PostChange = StylePoint
     PowerBar.PostChange = StyleBar
 end
 local Start = function()
-    MM:EnableElements("MonitorRegion", "CDBar", "Cpoints", "Power")
+    MM:EnableElements("MonitorRegion", "CDBar", "CPoints", "Power")
 end
 local Pause = function()
-    MM:DisableElements("MonitorRegion", "CDBar", "Cpoints", "Power")
+    MM:DisableElements("MonitorRegion", "CDBar", "CPoints", "Power")
 end
 
 MM:AddClassSet("ROGUE", Create, Start, Pause)

@@ -17,7 +17,9 @@ local AnimeActions = {
         local act = anime:CreateAnimation("ALPHA")
         act:SetOrder(order)
         act:SetDuration(duration)
-        act:SetChange(change)
+        act:SetFromAlpha(params.from) 
+        act:SetToAlpha(params.to) 
+        --act:SetChange(change)
         act:SetSmoothing(mode)
         return act
     end,

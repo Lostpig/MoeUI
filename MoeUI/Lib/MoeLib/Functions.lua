@@ -208,7 +208,7 @@ Lib.CreatePanel = function(panelSet)
 	
 	if panelSet.grad then 
 		frame.bg:SetGradientAlpha(unpack(panelSet.grad))
-		frame.bg:SetTexture(1,1,1,1)
+		frame.bg:SetTexture(Media.Texture.Blank)
 		if panelSet.grad_mod then
 			frame.bg:SetBlendMode(panelSet.grad_mod)
 		end
@@ -330,6 +330,7 @@ Lib.Error = function(...)
     print("|cffefea33MoeUI:|r|cffff0000Error:|r ", ...)
 end
 
+local hiderframe
 local function CreateHider() 
 	if not hiderframe then hiderframe = CreateFrame("Frame","Moe_Hider") end
 	hiderframe:Hide()
@@ -364,21 +365,27 @@ Lib.IsHide = function(f)
 end
 
 Lib.IsSpellLearned = function(spellID)
-    local temp, texture, offset, numSlots, isGuild, offSpecID = GetSpellTabInfo(2)
-    local isknown = false
-    local slot = offset
-    local spellname, spellicon
-    for i = 1, numSlots do
-        slot = offset + i
-        local slottype, soltid = GetSpellBookItemInfo(slot, "spell")
-        local name, _, icon, _, _, _, sid = GetSpellInfo(slot, "spell")
-        if soltid and sid == spellID and slottype ~= "FUTURESPELL" then
-            isknown = IsSpellKnown(soltid)
-            spellname = name
-            spellicon = icon
-            break
+    local isknown = IsPlayerSpell(spellID)
+    local spellname, spellicon, slot
+    
+    if (isknown) then
+        local name, _, icon, _, _, _, sid = GetSpellInfo(spellID)
+        spellname = name
+        spellicon = icon
+        
+        local _, _, offset, numSlots, _, _ = GetSpellTabInfo(2)
+        local tempslot
+        for i = 1, numSlots do
+            tempslot = offset + i
+            local slottype, soltid = GetSpellBookItemInfo(tempslot, "spell")
+            local _, _, _, _, _, _, sid = GetSpellInfo(tempslot, "spell")
+            if soltid and sid == spellID and slottype ~= "FUTURESPELL" then
+                slot = tempslot
+                break
+            end
         end
     end
+    
     return isknown, spellname, slot, spellicon
 end
 Lib.RandNum = function(maxNum, oldNum)

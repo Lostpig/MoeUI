@@ -2,7 +2,7 @@
 local PClass = select(2, UnitClass('player'))
 if      PClass ~= 'MONK'    and PClass ~= 'PALADIN' 
     and PClass ~= 'DRUID'   and PClass ~= 'ROGUE'
-    and PClass ~= 'WARLOCK' and PClass ~= 'PRIEST' 
+    and PClass ~= 'WARLOCK' 
 then return end
 
 local addon, namespace = ...
@@ -39,11 +39,14 @@ end
 
 local NewPoint = function(bar, index)
     local Set = bar.Set
-    local r, g, b = PowerBarColor[ClassPowerType].r, PowerBarColor[ClassPowerType].g, PowerBarColor[ClassPowerType].b
+    local r, g, b = 1,1,1
+    print(index)
     if Set.customcolor and Set.customcolor[index] then
         r, g, b = Set.customcolor[index].r, Set.customcolor[index].g, Set.customcolor[index].b
     elseif Set.customcolor and Set.customcolor.r then
         r, g, b = Set.customcolor.r, Set.customcolor.g, Set.customcolor.b
+    else
+        r, g, b = PowerBarColor[ClassPowerType].r, PowerBarColor[ClassPowerType].g, PowerBarColor[ClassPowerType].b
     end
     
 	local point = CreateFrame("StatusBar", nil, bar)
@@ -75,9 +78,9 @@ local Update = function(self, event, unit)
 	local num = UnitPower(unit, ClassPowerID)
 	for index = 1, UnitPowerMax(unit, ClassPowerID) do
 		if(index <= num) then
-			self[index]:SetAlpha(.9)
+			self.points[index]:SetAlpha(.9)
 		else
-			self[index]:SetAlpha(.2)
+			self.points[index]:SetAlpha(.2)
 		end
 	end
 	
@@ -89,12 +92,12 @@ local Change = function(self, event, unit, powerType)
 	local pointwidth = (self.Set.width - self.Set.spacing * (maxnum - 1)) / maxnum
     
 	for i = 1, maxnum do
-		self[i]:SetWidth(pointwidth)
-        self[i]:Show()
+		self.points[i]:SetWidth(pointwidth)
+        self.points[i]:Show()
 	end
 	for j = maxnum + 1, 6 do
-        if not self[j] then break end
-		self[j]:Hide()
+        if not self.points[j] then break end
+		self.points[j]:Hide()
 	end
 	
     if self.PostChange then self:PostChange(unit, powerType, maxnum) end
@@ -134,12 +137,13 @@ local Create = function(region, name, sets)
     Bar:SetPoint(sets.anchor, region, sets.relative, sets.x, sets.y)
     Bar:SetHeight(sets.height)
     Bar:SetWidth(sets.width)
+    Bar.points = {}
     
     Bar.Set = sets
     for i = 1, 6 do 
-        Bar[i] = NewPoint(Bar, i)
-        if i == 1 then Bar[i]:SetPoint( "LEFT", Bar, "LEFT", 0, 0)
-        else Bar[i]:SetPoint( "LEFT", Bar[i-1], "RIGHT", sets.spacing, 0) end
+        Bar.points[i] = NewPoint(Bar, i)
+        if i == 1 then Bar.points[i]:SetPoint( "LEFT", Bar, "LEFT", 0, 0)
+        else Bar.points[i]:SetPoint( "LEFT", Bar.points[i-1], "RIGHT", sets.spacing, 0) end
     end
     
     Bar.enable = Enable

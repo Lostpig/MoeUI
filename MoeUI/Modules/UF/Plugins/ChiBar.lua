@@ -15,9 +15,9 @@ local function Update(self,event,unit)
 	local chinum = UnitPower(unit, SPELL_POWER_CHI)
 	for index = 1, UnitPowerMax(unit, SPELL_POWER_CHI) do
 		if(index <= chinum) then
-			chi[index]:SetAlpha(1)
+			chi.points[index]:SetAlpha(1)
 		else
-			chi[index]:SetAlpha(.2)
+			chi.points[index]:SetAlpha(.2)
 		end
 	end
 	
@@ -33,10 +33,10 @@ end
 --/dump Moe_UF_player.ChiBar[1]:GetStatusBarTexture():GetHorizTile()
 local newpoint = function(bar)
 	local point = CreateFrame("StatusBar", nil, bar)
-    local texture = bar[1]:GetStatusBarTexture()
-	point:SetHeight(bar[1]:GetHeight())
+    local texture = bar.points[1]:GetStatusBarTexture()
+	point:SetHeight(bar.points[1]:GetHeight())
 	point:SetStatusBarTexture(texture:GetTexture())	
-	point:SetStatusBarColor(bar[1]:GetStatusBarColor())
+	point:SetStatusBarColor(bar.points[1]:GetStatusBarColor())
 	point:GetStatusBarTexture():SetHorizTile(texture:GetHorizTile())
 	return point
 end
@@ -46,16 +46,16 @@ local maxchange = function(self,event,unit,powerType)
 	local bar = self.ChiBar
 	
 	for i = 1, maxnum do
-		if not bar[i] then 
-			bar[i] = newpoint(bar)
-			bar[i]:SetPoint("LEFT",bar[i-1],"RIGHT",1,0)
+		if not bar.points[i] then 
+			bar.points[i] = newpoint(bar)
+			bar.points[i]:SetPoint("LEFT",bar.points[i-1],"RIGHT",1,0)
 		end
-		bar[i]:SetWidth((bar:GetWidth() - (maxnum - 1))/maxnum)
+		bar.points[i]:SetWidth((bar:GetWidth() - (maxnum - 1))/maxnum)
 	end
 	
 	for j = maxnum + 1, 10 do
-        if not bar[i] then break end
-		bar[i]:Hide()
+        if not bar.points[i] then break end
+		bar.points[i]:Hide()
 	end
 	
 	Path(self,event,'player')

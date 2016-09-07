@@ -37,8 +37,7 @@ local OutActs = {
     {Action = "Scale", name = "OHS",  duration = duration, order = 2, params = {fromv = 1, tov = 1, fromh = 1, toh = 2},},
     {Action = "Scale", name = "IMS",  duration = duration, order = 2, params = {fromv = 1, tov = 2, fromh = 1, toh = 2},},
 }
---PlaySound("Interface\\AddOns\\MoeUI\\Media\\Warning\\sound\\1.ogg")
---Moe.Modules:Get("Warning").test()
+
 local function SetStatus(frame, status)
     frame.Status = status
     if status == STATUS.BROKEN then
@@ -123,6 +122,11 @@ local function Load()
     KanWarning.Main:SetScript("OnEvent", StatusChange)
 end
 Moe.Modules:AddModule("Warning", Load, nil)
+
+SLASH_WARNINGTEST1 = "/warningtest"
+SlashCmdList["WARNINGTEST"] = function(msg)
+    Test(KanWarning.Main);
+end
 
 
 

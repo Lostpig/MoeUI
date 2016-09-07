@@ -63,14 +63,15 @@ local function HideBLZ()
     MainMenuBarLeftEndCap:SetTexture(nil)
     MainMenuBarRightEndCap:SetTexture(nil)
 end
-local function SetFadeing(bar, basename, btnnum, inalpha, outalpha, fadetime)
+local function SetFadeing(bar, buttonList, inalpha, outalpha, fadetime)
 	bar:SetScript("OnEnter",function(self) UIFrameFadeOut(self, fadetime, bar:GetAlpha(), inalpha) end)
 	bar:SetScript("OnLeave",function(self) UIFrameFadeOut(self, fadetime, bar:GetAlpha(), outalpha) end)
 	
-	for i = 1, btnnum do
-		local button = _G[basename .. "Button" .. i]
-		button:HookScript("OnEnter", function() UIFrameFadeIn(bar, fadetime, bar:GetAlpha(), inalpha) end)
-        button:HookScript("OnLeave", function() UIFrameFadeOut(bar, fadetime, bar:GetAlpha(), outalpha) end)
+	for _, button in pairs(buttonList) do
+		if button then
+			button:HookScript("OnEnter", function() UIFrameFadeIn(bar, fadetime, bar:GetAlpha(), inalpha) end)
+			button:HookScript("OnLeave", function() UIFrameFadeOut(bar, fadetime, bar:GetAlpha(), outalpha) end)
+		end
 	end
 	
 	bar:SetAlpha(outalpha)
@@ -100,11 +101,13 @@ local function SetMainBar(theme)
 		end
 		ButtonStyle(button, theme)
     end
-	RegisterStateDriver(barFrame, "visibility", "[petbattle][overridebar][vehicleui] hide; show")
+	
+	RegisterStateDriver(barFrame, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
 end
 local function SetBar(baseBar, barcfg, index, theme)
 	local cfg = barcfg
 	local barFrame = CreateFrame("Frame", "Moe_ActBar_"..index, UIParent, "SecureHandlerStateTemplate")
+	local buttonList = {}
 	
 	if (cfg.vertical) then
 		barFrame:SetWidth(cfg.size + 2 * cfg.spacing)
@@ -121,6 +124,8 @@ local function SetBar(baseBar, barcfg, index, theme)
 
 	for i = 1, num do
 		local button = _G[baseBar:GetName() .. "Button" .. i]
+		table.insert(buttonList, button)
+		
 		button:SetSize(cfg.size, cfg.size)
 		button:ClearAllPoints()
 		if i == 1 then
@@ -140,8 +145,8 @@ local function SetBar(baseBar, barcfg, index, theme)
 		ButtonStyle(button, theme)
 	end
 
-	RegisterStateDriver(barFrame, "visibility", "[petbattle][overridebar][vehicleui] hide; show")
-	if (cfg.fade) then SetFadeing(barFrame, baseBar:GetName(), num, cfg.fadein, cfg.fadeout, cfg.fadetime) end
+	RegisterStateDriver(barFrame, "visibility", "[petbattle][overridebar][vehicleui][possessbar,@vehicle,exists] hide; show")
+	if (cfg.fade) then SetFadeing(barFrame, buttonList, cfg.fadein, cfg.fadeout, cfg.fadetime) end
 end
 
 local function SetPetBar(theme)
@@ -433,6 +438,8 @@ local function Load()
     SetOverrideBar(theme.Button)
     
     CreateBarSwitch(theme.Switch)
+    
+    if (theme.StyleBars) then theme.StyleBars() end
 end
 
 Modules:AddModule("ActionBar", Load, nil)

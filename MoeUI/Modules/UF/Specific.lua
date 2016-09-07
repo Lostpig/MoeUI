@@ -33,7 +33,7 @@ Specific.player = function(self, unit)
 	BuffFrame:Hide()
 	F.PlayerBuffs(self, p.buffs)
 	F.PlayerDebuffs(self, p.debuffs)
-
+    
 	if g.classbar.show then
 		F.CreateClassBar(self, g.classbar)
 	end

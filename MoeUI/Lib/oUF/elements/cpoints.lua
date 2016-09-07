@@ -3,6 +3,7 @@ if PlayerClass ~= "DRUID" and PlayerClass ~= "ROGUE" then return end
 
 local parent, ns = ...
 local oUF = ns.oUF
+local CAT_FORM = CAT_FORM
 
 local SPELL_POWER_COMBO_POINTS = SPELL_POWER_COMBO_POINTS
 local MAX_COMBO_POINTS = UnitPowerMax('player', SPELL_POWER_COMBO_POINTS)
@@ -63,16 +64,30 @@ local maxchange = function(self,event,unit,powerType)
 	Path(self,event,'player')
 end
 
+local isvisable = function(self,...)
+	local form = GetShapeshiftFormID()
+	local cp = self.CPoints
+	if(form and form == CAT_FORM) then -- player has balance spec
+		cp:Show()
+	else
+		cp:Hide()
+	end
+end
 
 local function Enable(self)
-	local hp = self.CPoints
-	if(hp) then
-		hp.__owner = self
-		hp.ForceUpdate = ForceUpdate
+	local cp = self.CPoints
+	if(cp) then
+		cp.__owner = self
+		cp.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_COMBO_POINTS', Path)
 		self:RegisterEvent('UNIT_MAXPOWER',maxchange)
 		maxchange(self,'UNIT_MAXPOWER','player','COMBO_POINTS')
+        
+        if (PlayerClass == "DRUID") then
+            self:RegisterEvent('UPDATE_SHAPESHIFT_FORM',isvisable)
+            isvisable(self,'UPDATE_SHAPESHIFT_FORM')
+        end
 
 		return true
 	end

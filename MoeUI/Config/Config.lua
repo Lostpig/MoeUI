@@ -25,7 +25,7 @@ Config["Modules"] = {
 }
 --动作条
 Config["ActionBar"] = {
-    showmainbar = false,  --进入游戏是否默认显示主动作条
+    showmainbar = true,  --进入游戏是否默认显示主动作条
     bar1 = {
         scale		= 1,
         spacing		= 4,
@@ -84,7 +84,7 @@ Config["ActionBar"] = {
         scale		= 1,
         spacing		= 2,
         size        = 32,
-        point		= {"BOTTOM", "UIParent", "BOTTOMLEFT", -180, 0 },
+        point		= {"BOTTOMRIGHT", "UIParent", "BOTTOM", -184, 75 },
     },
     leavevehicle = {
         scale		= 0.92,

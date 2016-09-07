@@ -5,12 +5,7 @@ local Modules = namespace.Moe.Modules
 local Media = namespace.Moe.Media
 local MM = Modules:Get("Monitor")
 
-local RuneColor = {
-	{1, 0, 0},   -- blood
-	{0, .5, 0},  -- unholy
-	{0, 1, 1},   -- frost
-	{.9, .1, 1}, -- death
-}
+local RuneColor = {0, 1, 1}
 
 local NewPoint = function(bar, index)
     local Set = bar.Set
@@ -24,9 +19,8 @@ local NewPoint = function(bar, index)
 end
 
 local UpdateType = function(self, event, rid, alt)
-	local rune = self[rid]
-	local colors = RuneColor[GetRuneType(rid) or alt]
-	local r, g, b = colors[1], colors[2], colors[3]
+	local rune = self.points[rid]
+	local r, g, b = RuneColor[1], RuneColor[2], RuneColor[3]
 
 	rune:SetStatusBarColor(r, g, b)
 	if(self.PostUpdateType) then
@@ -44,10 +38,11 @@ local OnUpdate = function(self, elapsed)
 	end
 end
 local UpdateRune = function(self, event, rid)
-	local rune = self[rid]
+	local rune = self.points[rid]
 	if(not rune) then return end
 
 	local start, duration, runeReady = GetRuneCooldown(rid)
+    if(start == nil and runeReady == nil) then return end
 	if(runeReady) then
 		rune:SetMinMaxValues(0, 1)
 		rune:SetValue(1)
@@ -99,14 +94,15 @@ local Create = function(region, name, sets)
     Bar:SetPoint(sets.anchor, region, sets.relative, sets.x, sets.y)
     Bar:SetHeight(sets.height)
     Bar:SetWidth(sets.width)
+    Bar.points = {}
     
     Bar.Set = sets
     local pointwidth = (sets.width - sets.spacing * 5) / 6
     for i = 1, 6 do 
-        Bar[i] = NewPoint(Bar, i)
-        if i == 1 then Bar[i]:SetPoint( "LEFT", Bar, "LEFT", 0, 0)
-        else Bar[i]:SetPoint( "LEFT", Bar[i-1], "RIGHT", sets.spacing, 0) end
-        Bar[i]:SetWidth(pointwidth)
+        Bar.points[i] = NewPoint(Bar, i)
+        if i == 1 then Bar.points[i]:SetPoint( "LEFT", Bar, "LEFT", 0, 0)
+        else Bar.points[i]:SetPoint( "LEFT", Bar.points[i-1], "RIGHT", sets.spacing, 0) end
+        Bar.points[i]:SetWidth(pointwidth)
     end
     
     Bar.enable = Enable

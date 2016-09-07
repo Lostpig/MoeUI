@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+﻿## Interface: 70000
 ## Title: |cfffefe22Moe|r UI
 ## Credits: zork, Haste, Neavo, Qulight, Jon Crenshaw, Monolit, Cargor, 堂吉先生, surgesoft, Tuller
 ## Author: Lostpigz

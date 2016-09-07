@@ -11,19 +11,16 @@ local NormalColor     = {244/255, 182/255, 96/255, 1}
 
 Cast.ChannelTickList = {
 	-- warlock
-	--[GetSpellInfo(1120)] = 5, -- drain soul
 	[GetSpellInfo(689)] = 5, -- drain life
 	[GetSpellInfo(5740)] = 4, -- rain of fire
 	-- druid
 	[GetSpellInfo(740)] = 4, -- Tranquility
-	[GetSpellInfo(16914)] = 10, -- Hurricane
 	-- priest
 	[GetSpellInfo(15407)] = 3, -- mind flay
 	[GetSpellInfo(48045)] = 5, -- mind sear
 	[GetSpellInfo(47540)] = 2, -- penance
 	-- mage
 	[GetSpellInfo(5143)] = 5, -- arcane missiles
-	[GetSpellInfo(10)] = 5, -- blizzard
 	[GetSpellInfo(12051)] = 4, -- evocation
 }
 local ticks = {}
@@ -99,8 +96,12 @@ Cast.PostCastStart = function(self, unit, name, rank, text)
         self:SetStatusBarColor(unpack(self.casting and self.CastingColor or self.ChannelingColor))
 		self.SafeZone.timeDiff = GetTime() - self.SafeZone.sendTime
 		self.SafeZone.timeDiff = self.SafeZone.timeDiff > self.max and self.max or self.SafeZone.timeDiff
-		self.SafeZone:SetWidth(self:GetWidth() * self.SafeZone.timeDiff / self.max)
-		self.SafeZone:Show()
+        if (self.SafeZone.timeDiff > 0) then
+            self.SafeZone:SetWidth(self:GetWidth() * self.SafeZone.timeDiff / self.max)
+            self.SafeZone:Show()
+        else 
+            self.SafeZone:Hide()
+        end
 		if self.casting then
 			Cast.SetTicks(self, 0)
 		else

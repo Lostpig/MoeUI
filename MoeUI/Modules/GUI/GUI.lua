@@ -46,7 +46,7 @@ local FramesDB = {
 	color = {1, 1, 1, 0},level = 2,
 	button = true,fontstring = InfoFs,
 	text = "NONE",
-	event = {"ACTIVE_TALENT_GROUP_CHANGED","CONFIRM_TALENT_WIPE","PLAYER_TALENT_UPDATE","PLAYER_ENTERING_WORLD"},
+	event = {"ACTIVE_TALENT_GROUP_CHANGED","CONFIRM_TALENT_WIPE","PLAYER_TALENT_UPDATE", "PLAYER_ENTERING_WORLD"},
 	script = {
 		OnEvent = function(self,event)
 			local classname, class = UnitClass("player")
@@ -65,6 +65,8 @@ local FramesDB = {
 				elseif srole == "DAMAGER" then 
 					roletex = INLINE_DAMAGER_ICON 
 					sname = "|cff"..COLOR_ROLE_DAMAGER..sname.."|r"
+                else
+                    sname = ""
 				end
 				classname = roletex .. sname .. " " .. classname
 			end
@@ -164,13 +166,17 @@ local FramesDB = {
         height = 10, width = GetScreenWidth(),
         texture = Media.Bar.GradV,
         color = {.44, .44, .44, .38},
-        event = {"PLAYER_LEVEL_UP","PLAYER_XP_UPDATE","PLAYER_ENTERING_WORLD"},
+        event = {"PLAYER_LEVEL_UP","PLAYER_XP_UPDATE","PLAYER_ENTERING_WORLD","UI_SCALE_CHANGED"},
         script = {
             OnEvent = function(self, event, level)
                 if event == "PLAYER_ENTERING_WORLD" then 
+                    self:SetWidth(GetScreenWidth())
                     self:SetMinMaxValues(0, 1000) 
                     self:SetStatusBarColor(.74, .2, .95, 1)
+                elseif event == "UI_SCALE_CHANGED" then 
+                    self:SetWidth(GetScreenWidth())
                 end
+                
                 local expur,expmax = UnitXP("player"),UnitXPMax("player")
                 local expperc = floor(expur / expmax * 1000)
                 self:SetValue(expperc)

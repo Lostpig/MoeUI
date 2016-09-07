@@ -311,9 +311,11 @@ end
 local function LayoutChatFrame()
     local cf1 = _G["ChatFrame1"]
     local p, x, y = GetChatWindowSavedPosition(cf1:GetID())
-    cf1:ClearAllPoints()
-    cf1:SetPoint(p, x * GetScreenWidth(), y * GetScreenHeight())
-    cf1:SetUserPlaced(true)
+    if p then
+        cf1:ClearAllPoints()
+        cf1:SetPoint(p, x * GetScreenWidth(), y * GetScreenHeight())
+        cf1:SetUserPlaced(true)
+    end
 end
 
 local function ReplaceConst()

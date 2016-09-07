@@ -12,4 +12,5 @@
     <Script file="Class\Shaman.lua"/>
     <Script file="Class\DK.lua"/>
     <Script file="Class\Rogue.lua"/>
+    <Script file="Class\Hunter.lua"/>
 </Ui>

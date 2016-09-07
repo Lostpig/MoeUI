@@ -197,6 +197,16 @@ F.CreateHighlight = function(frame, basesets)
     highlight:SetAllPoints(frame.Health)
     highlight:SetTexture(basesets.Texture)
     highlight:SetVertexColor(unpack(basesets.Color))
+	
+	if basesets.flipv or basesets.fliph then
+		local flpmode
+		if basesets.fliph and basesets.flipv then flpmode = "DIAGONAL"
+		elseif basesets.flipv then flpmode = "VERTICAL"
+		elseif basesets.fliph then flpmode = "HORIZONTAL" end
+		
+		Lib.Flip(highlight, flpmode)
+	end
+	
     highlight:SetBlendMode("ADD")
     highlight:Hide()
     frame.Highlight = highlight
@@ -234,7 +244,6 @@ F.CreateMainBar = function(frame, unit, barType, sets)
 	
 	if sets.flipv or sets.fliph then
 		local flpmode
-		local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = bar:GetStatusBarTexture():GetTexCoord()
 		if sets.fliph and sets.flipv then flpmode = "DIAGONAL"
 		elseif sets.flipv then flpmode = "VERTICAL"
 		elseif sets.fliph then flpmode = "HORIZONTAL" end
@@ -383,7 +392,7 @@ F.PlayerBuffs = function(frame, sets)
 	fbuff.initialAnchor = "TOPRIGHT"
 	fbuff["growth-x"] = sets.growx or "LEFT"
 	fbuff["growth-y"] = sets.growy or "DOWN"
-
+    
     fbuff.PostCreateIcon = postCreateIcon
     fbuff.PostUpdateIcon = postUpdateIcon
 
@@ -448,18 +457,12 @@ F.CreateAuras = function(frame, sets)
 end
 
 F.CreateClassBar = function(frame, sets)
-	if F.BaseInfo.PlayerClass == "DRUID" then
-		F.CreateCPoints(frame, sets)
-		F.CreateEclipse(frame, sets)
+	if F.BaseInfo.PlayerClass == "DRUID" then F.CreateCPoints(frame, sets)
 	elseif F.BaseInfo.PlayerClass == "ROGUE" then F.CreateCPoints(frame, sets)
 	elseif F.BaseInfo.PlayerClass == "DEATHKNIGHT" then F.CreateRunes(frame, sets)
-	elseif F.BaseInfo.PlayerClass == "WARLOCK" then 
-		F.CreateShards(frame, sets)
-		F.CreateDemonicFury(frame, sets)
-		F.CreateEmber(frame, sets)
-	elseif F.BaseInfo.PlayerClass == "PRIEST" then F.CreateShadowOrbs(frame, sets)
+	elseif F.BaseInfo.PlayerClass == "WARLOCK" then F.CreateShards(frame, sets)
 	elseif F.BaseInfo.PlayerClass == "PALADIN" then F.CreateHolyPower(frame, sets)
-	elseif F.BaseInfo.PlayerClass == "SHANMAN" then F.CreateTotemBar(frame, sets)
+	elseif F.BaseInfo.PlayerClass == "SHAMAN" then F.CreateTotemBar(frame, sets)
 	elseif F.BaseInfo.PlayerClass == "MONK" then F.CreateChiBar(frame, sets)
 	end
 end
@@ -502,46 +505,6 @@ F.CreateCPoints = function(frame, sets)
 	frame.CPoints = bars
 	--frame.CPoints.Override = CPointsUpdate
 end
---DRUID Eclipse 
-F.CreateEclipse = function(frame, sets)
-	if F.BaseInfo.PlayerClass ~= "DRUID" then return end
-	local bars = CreateFrame("Frame", nil, frame)
-	bars:SetHeight(sets.height)
-    bars:SetWidth(sets.width)
-	bars:SetPoint(sets.anchor, frame, sets.relative, sets.x, sets.y)
-	bars:SetFrameStrata("LOW")
-	
-	local Spark = bars:CreateTexture(nil, "OVERLAY")
-    Spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
-    Spark:SetBlendMode("ADD")
-    Spark:SetAlpha(0.8)
-    Spark:SetHeight(sets.width)
-    Spark:SetWidth(2)
-    Spark:SetPoint("CENTER", bars, "CENTER", 0, 0)
-	
-	local LunarBar = CreateFrame("StatusBar", nil, bars)
-	LunarBar:SetPoint('LEFT', bars, 'LEFT', 0, 0)
-	LunarBar:SetSize(frame:GetWidth()*0.5, 5)
-	LunarBar:SetStatusBarTexture(sets.texture)
-	LunarBar:SetStatusBarColor(0, 0, 1,.7)
-	bars.LunarBar = LunarBar
-	
-	local SolarBar = CreateFrame('StatusBar', nil, bars)
-	SolarBar:SetPoint('LEFT', lunarBar:GetStatusBarTexture(), 'RIGHT', 0, 0)
-	SolarBar:SetSize(frame:GetWidth()*0.5, 5)
-	SolarBar:SetStatusBarTexture(sets.texture)
-	SolarBar:SetStatusBarColor(1, 3/5, 0,.7)
-	bars.SolarBar = SolarBar
-	
-	local EclipseText = Lib.EasyFontString(bars, sets.font, sets.fontsize, sets.fontflag)
-	EclipseText:SetPoint('CENTER', bars, 'CENTER', 0, 0)
-	frame:Tag(EclipseText, '[pereclipse]%')
-	
-	if sets.style and type(sets.style) == "function" then sets.style(bars)
-	else BaseStyle(bars) end
-	
-	frame.EclipseBar = bars
-end
 --DEATHKNIGHT Runes 
 F.CreateRunes = function(frame, sets)
 	if F.BaseInfo.PlayerClass ~= "DEATHKNIGHT" then return end
@@ -550,19 +513,20 @@ F.CreateRunes = function(frame, sets)
     bars:SetWidth(sets.width)
 	bars:SetPoint(sets.anchor, frame, sets.relative, sets.x, sets.y)
 	bars:SetFrameStrata("LOW")
+    bars.points = {}
 	
 	for i = 1, 6 do
-		bars[i] = CreateFrame("StatusBar", nil, bars)
-		bars[i]:SetHeight(sets.height)
-		bars[i]:SetWidth((bars:GetWidth() - 5) / 6)
+		bars.points[i] = CreateFrame("StatusBar", nil, bars)
+		bars.points[i]:SetHeight(sets.height)
+		bars.points[i]:SetWidth((bars:GetWidth() - 5) / 6)
 
 		if (i == 1) then
-			bars[i]:SetPoint("LEFT", bars)
+			bars.points[i]:SetPoint("LEFT", bars)
 		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", 1, 0)
+			bars.points[i]:SetPoint("LEFT", bars.points[i-1], "RIGHT", 1, 0)
 		end
-		bars[i]:SetStatusBarTexture(sets.texture)
-		bars[i]:GetStatusBarTexture():SetHorizTile(false)
+		bars.points[i]:SetStatusBarTexture(sets.texture)
+		bars.points[i]:GetStatusBarTexture():SetHorizTile(false)
 	end
 	
 	if sets.style and type(sets.style) == "function" then sets.style(bars)
@@ -578,117 +542,28 @@ F.CreateShards = function(frame, sets)
     bars:SetWidth(sets.width)
 	bars:SetPoint(sets.anchor, frame, sets.relative, sets.x, sets.y)
 	bars:SetFrameStrata("LOW")
+    bars.points = {}
 	
 	local maxnum = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS )
 	for i = 1, maxnum do					
-		bars[i] = CreateFrame("StatusBar", nil, bars)
-		bars[i]:SetHeight(sets.height)					
-		bars[i]:SetStatusBarTexture(sets.texture)
-		bars[i]:GetStatusBarTexture():SetHorizTile(true)
-		bars[i]:SetStatusBarColor(148/255, 130/255, 201/255)
+		bars.points[i] = CreateFrame("StatusBar", nil, bars)
+		bars.points[i]:SetHeight(sets.height)					
+		bars.points[i]:SetStatusBarTexture(sets.texture)
+		bars.points[i]:GetStatusBarTexture():SetHorizTile(true)
+		bars.points[i]:SetStatusBarColor(148/255, 130/255, 201/255)
 					
 		if i == 1 then
-			bars[i]:SetPoint("LEFT", bars)
+			bars.points[i]:SetPoint("LEFT", bars)
 		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", 1, 0)
+			bars.points[i]:SetPoint("LEFT", bars.points[i-1], "RIGHT", 1, 0)
 		end
-		bars[i]:SetWidth((bars:GetWidth() - (maxnum - 1))/maxnum)
+		bars.points[i]:SetWidth((bars:GetWidth() - (maxnum - 1))/maxnum)
 	end
 		
 	if sets.style and type(sets.style) == "function" then sets.style(bars)
 	else BaseStyle(bars) end
 		
 	frame.SoulShards = bars		
-end
-F.CreateDemonicFury = function(frame, sets)
-	if F.BaseInfo.PlayerClass ~= "WARLOCK" then return end
-	local bars = CreateFrame('Frame', nil, frame)
-    bars:SetHeight(sets.height)
-    bars:SetWidth(sets.width)
-	bars:SetPoint(sets.anchor, frame, sets.relative, sets.x, sets.y)
-	bars:SetFrameStrata("LOW")
-	
-	local DemonicFury = CreateFrame('StatusBar', nil, bars)
-	DemonicFury:SetPoint('LEFT', bars, 'LEFT', 0, 0)
-	DemonicFury:SetSize(sets.width, sets.height)
-	DemonicFury:SetStatusBarTexture(sets.texture)
-	DemonicFury:SetStatusBarColor(.1, .7, .4,.7)
-	bars.DemonicFury = DemonicFury
-	
-	local DemonicFuryText = Lib.EasyFontString(bars, sets.font, sets.fontsize, sets.fontflag)
-	DemonicFuryText:SetPoint('CENTER', bars, 'CENTER', 0, 1)
-	frame:Tag(DemonicFuryText, '[DemonicFuryText]')
-	
-	frame.DemonicFuryBar = bars
-end
-F.CreateEmber = function(frame, sets)
-	if F.BaseInfo.PlayerClass ~= "WARLOCK" then return end
-	
-	local bars = CreateFrame("Frame", nil, frame)
-    bars:SetHeight(sets.height)
-    bars:SetWidth(sets.width)
-	bars:SetPoint(sets.anchor, frame, sets.relative, sets.x, sets.y)
-	bars:SetFrameStrata("LOW")
-	
-	local maxnum = UnitPowerMax("player", SPELL_POWER_BURNING_EMBERS)
-	for i = 1, maxnum do					
-		bars[i]=CreateFrame("StatusBar", nil, bars)
-		bars[i]:SetHeight(sets.height)					
-		bars[i]:SetStatusBarTexture(sets.texture)
-		bars[i]:GetStatusBarTexture():SetHorizTile(false)
-		bars[i]:SetMinMaxValues(0, MAX_POWER_PER_EMBER)
-		bars[i]:SetStatusBarColor(0.97, 0.305, 0)
-		
-		bars[i].bg = bars[i]:CreateTexture(nil, 'BORDER')
-		bars[i].bg:SetTexture(sets.texture)	
-		bars[i].bg:SetVertexColor(.05, .05, .05, .15)
-					
-		if i == 1 then
-			bars[i]:SetPoint("LEFT", bars)
-		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", 1, 0)
-		end
-		
-		bars[i].bg:SetAllPoints(bars[i])
-		bars[i]:SetWidth((bars:GetWidth() - (maxnum-1))/maxnum)
-	end
-	
-	if sets.style and type(sets.style) == "function" then sets.style(bars)
-	else BaseStyle(bars) end
-	
-	frame.EmberBar = bars	
-end
---PRIEST      ShadowOrbs
-F.CreateShadowOrbs = function(frame, sets)
-	if F.BaseInfo.PlayerClass ~= "PRIEST" then return end
-	
-	local bars = CreateFrame("Frame", nil, frame)
-    bars:SetHeight(sets.height)
-    bars:SetWidth(sets.width)
-	bars:SetPoint(sets.anchor, frame, sets.relative, sets.x, sets.y)
-	bars:SetFrameStrata("LOW")
-	
-    local maxnum = 5
-	for i = 1, maxnum do					
-		bars[i] = CreateFrame("StatusBar", nil, bars)
-		bars[i]:SetHeight(sets.height)					
-		bars[i]:SetStatusBarTexture(sets.texture)
-		bars[i]:GetStatusBarTexture():SetHorizTile(false)
-		bars[i]:SetStatusBarColor(0.657, 0.405, 0.645)
-							
-		if i == 1 then
-			bars[i]:SetPoint("LEFT", bars)
-		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", 1, 0)
-		end
-
-		bars[i]:SetWidth((bars:GetWidth() - (maxnum-1))/maxnum)				
-	end
-	
-	if sets.style and type(sets.style) == "function" then sets.style(bars)
-	else BaseStyle(bars) end
-	
-	frame.ShadowOrbs = bars	
 end
 --PALADIN     HolyPower
 F.CreateHolyPower = function(frame, sets)
@@ -770,22 +645,23 @@ F.CreateChiBar = function(frame, sets)
     bars:SetWidth(sets.width)
 	bars:SetPoint(sets.anchor, frame, sets.relative, sets.x, sets.y)
 	bars:SetFrameStrata("LOW")
-	
+	bars.points = {}
+    
 	local maxnum = UnitPowerMax("player", SPELL_POWER_CHI)
 	for i = 1, maxnum do					
-		bars[i] = CreateFrame("StatusBar", nil, bars)
-		bars[i]:SetHeight(sets.height)					
-		bars[i]:SetStatusBarTexture(sets.texture)
-		bars[i]:GetStatusBarTexture():SetHorizTile(false)
-        bars[i]:SetStatusBarColor(0, 1, .6, .9)
+		bars.points[i] = CreateFrame("StatusBar", nil, bars)
+		bars.points[i]:SetHeight(sets.height)					
+		bars.points[i]:SetStatusBarTexture(sets.texture)
+		bars.points[i]:GetStatusBarTexture():SetHorizTile(false)
+        bars.points[i]:SetStatusBarColor(0, 1, .6, .9)
 					
 		if i == 1 then
-			bars[i]:SetPoint("LEFT", bars)
+			bars.points[i]:SetPoint("LEFT", bars)
 		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", 1, 0)
+			bars.points[i]:SetPoint("LEFT", bars.points[i-1], "RIGHT", 1, 0)
 		end
 
-		bars[i]:SetWidth((bars:GetWidth() - (maxnum - 1))/maxnum)
+		bars.points[i]:SetWidth((bars:GetWidth() - (maxnum - 1))/maxnum)
 	end
 
 	if sets.style and type(sets.style) == "function" then sets.style(bars)

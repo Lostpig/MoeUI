@@ -66,6 +66,23 @@ local function SetBarSize(frame, count)
 	frame:SetHeight(rowcount * Set.size + (rowcount - 1) * Set.spacing + Set.margin * 2)
 end
 
+local GetActiveSpells = function(spell)
+	local isLearned, name, slot, texture, spellid
+	if type(spell.SpellID) == "function" then
+		spellid = spell.SpellID()
+	else
+		spellid = spell.SpellID
+	end
+	
+	if (spell.Force == true) then
+		isLearned = true
+		name, _, texture = GetSpellInfo(spellid)
+	else
+		isLearned, name, slot, texture = Lib.IsSpellLearned(spellid)
+	end
+
+	return isLearned, name, slot, texture, spellid
+end
 local Change = function(self, event)
     ClearUp(self)
     local spec = GetSpecialization()
@@ -74,11 +91,11 @@ local Change = function(self, event)
         local last, lastCol
         local index = 0
         for _, spell in next, SpellList[spec] do
-            local isLearned, name, solt, texture = Lib.IsSpellLearned(spell.SpellID)
+            local isLearned, name, slot, texture, spellid = GetActiveSpells(spell)
             if isLearned then
                 local icon = GetIcon(self)
-                icon.SpellID = spell.SpellID
-                icon.Slot = solt
+                icon.SpellID = spellid
+                icon.Slot = slot
                 icon.Icon:SetTexture(texture)
                 
                 if last and index % self.Set.column ~= 0 then

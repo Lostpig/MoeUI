@@ -216,10 +216,49 @@ local function SetMapInfos(theme)
 		},
 		text = function()
 			local x,y = GetPlayerMapPosition("player")
-			return format("%d,%d",x*100,y*100)
+			return format("%.1f, %.1f",x*100,y*100)
 		end,
 	})
 end
+
+local coord_template = "%.2f, %.2f"
+local function MouseXY()
+	local left, top = WorldMapDetailFrame:GetLeft(), WorldMapDetailFrame:GetTop()
+	local width, height = WorldMapDetailFrame:GetWidth(), WorldMapDetailFrame:GetHeight()
+	local scale = WorldMapDetailFrame:GetEffectiveScale()
+
+	local x, y = GetCursorPosition()
+	local cx = (x/scale - left) / width
+	local cy = (top - y/scale) / height
+
+	if cx < 0 or cx > 1 or cy < 0 or cy > 1 then
+		return
+	end
+
+	return cx, cy
+end
+local function WorldMapCoords_Update(self)
+	local cx, cy = MouseXY()
+	if cx then
+		self.text:SetFormattedText(coord_template, 100 * cx, 100 * cy)
+	else
+		self.text:SetText("")
+	end
+end
+local function WorldMapCoords()
+	local coordFrame = CreateFrame("Frame", "Moe_WorldMap_Coords", WorldMapFrame)
+	coordFrame:SetFrameLevel(WorldMapFrame.UIElementsFrame:GetFrameLevel() + 20)
+	
+	local coordText = coordFrame:CreateFontString(nil, "OVERLAY")
+	coordText:SetFont(font, 14, "THINOUTLINE")
+	coordText:SetTextColor(1, 1, 1)
+	coordText:SetPoint("BOTTOM", WorldMapFrame.UIElementsFrame, "BOTTOM", 0, 4)
+	
+	coordFrame.text = coordText;
+	coordFrame:SetScript("OnUpdate", WorldMapCoords_Update)
+	coordFrame:Show()
+end
+
 
 local function Load()
     local theme = Theme:Get("Minimap")
@@ -227,10 +266,11 @@ local function Load()
 	SetMap()
 	SetMapItems()
 	SetMapInfos(theme)
+	
+	WorldMapCoords()
 
     if theme.Style and type(theme.Style) == "function" then theme.Style(MoeMiniMap) end
 end
 
 Modules:AddModule("Minimap", Load, nil)
-
 

@@ -24,7 +24,7 @@ local PriestSet = {
         }
     }, 
     Cooldown = {
-        size = 28, margin = 0, spacing = 4, column = 6,
+        size = 28, margin = 0, spacing = 4, column = 7,
         anchor = "TOP", relative = "TOP", x = 0, y = -15,
         frequentUpdates = false
     },
@@ -40,31 +40,35 @@ local CDSpellList = {
         {SpellID =  47540}, -- 苦修
         {SpellID = 120517}, -- 光晕
         {SpellID = 110744}, -- 神圣之星
-        {SpellID = 121135}, -- 瀑流
         {SpellID =  10060},	-- 能量灌注
         {SpellID =  62618}, -- 真言术：障
+		--{SpellID =  47536}, -- 全神贯注
+		{SpellID =  33206}, -- 痛苦压制
 		{SpellID = 207946}, -- 圣光之怒
+		{SpellID = 123040}, -- 摧心魔
     },
-    [2] = {	--戒律
-        {SpellID =  88625}, -- 真言术:罚
-        {SpellID =  88684}, -- 真言术:罚
-        {SpellID =  88685}, -- 真言术:罚
-        {SpellID =  34861}, -- 环
+    [2] = {	--神圣
+        {SpellID =   2050}, -- 圣言术:静
+		{SpellID =  34861}, -- 圣言术:灵
+        {SpellID = 204883}, -- 环
         {SpellID =  33076}, -- 愈合
-        {SpellID = 129250}, -- 真言术:慰
         {SpellID = 120517}, -- 光晕
         {SpellID = 110744}, -- 神圣之星
-        {SpellID = 121135}, -- 瀑流
-        {SpellID =  10060},	-- 能量灌注
         {SpellID =  64843}, -- 赞美诗
+		{SpellID =  47788}, -- 守护之魂
     },
     [3] = {	--暗影
         {SpellID =   8092},	-- 心爆
-        {SpellID =  32379},	-- 灭
+		{SpellID = 205351},	-- 暗言术：虚
+        {SpellID = function () 
+				local spec_add = Lib.IsSpellLearned(199853)
+				return spec_add and 199911 or 32379
+			end, Force = true
+		},	-- 暗言术：灭
         {SpellID = 123040}, -- 摧心魔
         {SpellID =  34433}, -- 暗影魔
-		{SpellID = 228260}, -- 虚空爆发
-		{SpellID = 205065}, -- 虚空洪流
+		{SpellID = 205448, Force = true}, -- 虚空箭
+		{SpellID = 205065, Force = true}, -- 虚空洪流
     },
 }
 

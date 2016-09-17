@@ -282,8 +282,8 @@ Lib.CreateIcon = function(parent, sets)
     Lib.CreateBorder(Frame, 1, {1,1,1,1}, {1,1,1,.8})
 
     Frame.Count = Frame:CreateFontString(nil, "OVERLAY") 
-    Frame.Count:SetFont(Media.Fonts.Default, 10, "THINOUTLINE") 
-    Frame.Count:SetPoint("BOTTOMRIGHT", 3, -1)
+    Frame.Count:SetFont(Media.Fonts.Default, 13, "THINOUTLINE") 
+    Frame.Count:SetPoint("BOTTOMRIGHT", 3, 0)
     
     Frame.Cooldown = CreateFrame("Cooldown", nil, Frame, "CooldownFrameTemplate") 
     Frame.Cooldown:SetAllPoints() 
@@ -396,15 +396,4 @@ Lib.RandNum = function(maxNum, oldNum)
     end
 	return newNum
 end
-
-
-
-
-
-
-
-
-
-
-
 

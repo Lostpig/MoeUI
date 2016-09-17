@@ -87,10 +87,10 @@ Config["ActionBar"] = {
         point		= {"BOTTOMRIGHT", "UIParent", "BOTTOM", -184, 75 },
     },
     leavevehicle = {
-        scale		= 0.92,
+        scale		= 1,
         spacing		= 2,
-        size        = 26,
-        point		= {"BOTTOM", "UIParent", "BOTTOMRIGHT", 180, 0 },
+        size        = 32,
+        point		= {"BOTTOMRIGHT", "UIParent", "BOTTOM", -184, 15 },
     },
     overridebar = {
         scale		= 0.92,

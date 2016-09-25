@@ -137,18 +137,20 @@ Cast.PostCastFailed = function(self, event, unit, name, rank, castid)
 	self:Show()
 end
 Cast.PostCastInterruptible = function(self, unit)
-    local r, g, b = unpack(InterruptColor)
-    self:SetStatusBarColor(r , g , b , .9)
+    --local r, g, b = unpack(InterruptColor)
+    --self:SetStatusBarColor(r , g , b , .9)
+	self.Text:SetTextColor(1, 1, 1)
     --print("可打断")
 end
 Cast.PostCastNotInterruptible= function(self, unit)
     local r, g, b
     if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
-        r, g, b = unpack(InterruptColor)
+        r, g, b = 1, 1, 1
     else
-        r, g, b = unpack(oUF.colors.reaction[5])
+        r, g, b = 1, .15, .15
     end
-    self:SetStatusBarColor(r , g , b , .9)
+	self.Text:SetTextColor(r, g, b)
+    --self:SetStatusBarColor(r , g , b , .9)
     --print("不可打断")
 end
 

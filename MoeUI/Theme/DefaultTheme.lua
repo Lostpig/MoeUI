@@ -605,7 +605,7 @@ local UFTheme = {
 			},
 			castbar = {
 				height = 20, width = 235, reverse = true,
-				anchor = "BOTTOM", relative = "CENTER", x = 0, y = -82, to = "UIParent",
+				anchor = "BOTTOM", relative = "CENTER", x = 0, y = -78, to = "UIParent",
 				text = {font = dfont, size = 12, flag = "THINOUTLINE", anchor = "LEFT", relative = "LEFT", x = 2, y = 1 },
 				time = {font = dfont, size = 12, flag = "THINOUTLINE", anchor = "RIGHT", relative = "RIGHT", x = -2, y = 1 },
 				icon = {size = 14, anchor = "LEFT", relative = "RIGHT", x = 4, y = 0 },

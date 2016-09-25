@@ -203,3 +203,13 @@ local function ShowThemePanel()
 end
 
 Theme.ShowOption = ShowThemePanel
+
+SLASH_MOETHEME1 = "/moetheme"
+SlashCmdList["MOETHEME"] = function(msg)
+	if msg == "reset" then
+		Theme:Active("Default") 
+		StaticPopup_Show("APPLYTHEME_RELOADUI")
+	else
+		print(MoeDB["Theme"])
+	end
+end

@@ -6,6 +6,7 @@
     <Script file="Elements\Cooldown.lua"/>
     <Script file="Elements\Power.lua"/>
     <Script file="Elements\RuneBar.lua"/>
+	<Script file="Elements\BrewMasterBar.lua"/>
     
     <Script file="Class\Monk.lua"/>
     <Script file="Class\Priest.lua"/>
@@ -13,4 +14,5 @@
     <Script file="Class\DK.lua"/>
     <Script file="Class\Rogue.lua"/>
     <Script file="Class\Hunter.lua"/>
+	<Script file="Class\Warrior.lua"/>
 </Ui>

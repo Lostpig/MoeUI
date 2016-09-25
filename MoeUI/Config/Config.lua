@@ -8,7 +8,6 @@ Config["Theme"] = "Default"
 --启用模块
 Config["Modules"] = {   
     ["ActionBar"] = true,   --动作条
-    ["Bags"] = false,       --背包(暂时放弃支持，不要启用)
     ["Chat"] = true,        --聊天框美化
     ["Emote"] = true,       --聊天表情
     ["GUI"] = true,         --界面

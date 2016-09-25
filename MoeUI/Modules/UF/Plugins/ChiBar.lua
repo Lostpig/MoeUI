@@ -13,7 +13,7 @@ local function Update(self,event,unit)
 	if chi.PreUpdate then chi:PreUpdate(unit) end
 	
 	local chinum = UnitPower(unit, SPELL_POWER_CHI)
-	for index = 1, UnitPowerMax(unit, SPELL_POWER_CHI) do
+	for index = 1, chi.maxnum do
 		if(index <= chinum) then
 			chi.points[index]:SetAlpha(1)
 		else
@@ -40,7 +40,7 @@ local newpoint = function(bar)
 	point:GetStatusBarTexture():SetHorizTile(texture:GetHorizTile())
 	return point
 end
-local maxchange = function(self,event,unit,powerType)
+local maxchange = function(self, event, unit, powerType)
 	if unit ~= 'player' or (powerType and powerType ~= 'CHI') then return end
 	local maxnum = UnitPowerMax(unit, SPELL_POWER_CHI)
 	local bar = self.ChiBar
@@ -57,6 +57,7 @@ local maxchange = function(self,event,unit,powerType)
         if not bar.points[i] then break end
 		bar.points[i]:Hide()
 	end
+	bar.maxnum = maxnum
 	
 	Path(self,event,'player')
 end
@@ -65,6 +66,9 @@ local function Enable(self,unit)
 	local chi = self.ChiBar
 	
 	if (chi and unit == 'player') then
+		chi.color = color
+		chi.maxnum = 5
+	
 		self:RegisterEvent('UNIT_POWER', Path)
 		self:RegisterEvent('UNIT_DISPLAYPOWER', Path)
 		self:RegisterEvent('PLAYER_TALENT_UPDATE', maxchange)
@@ -72,7 +76,6 @@ local function Enable(self,unit)
 		maxchange(self,'UNIT_MAXPOWER','player','CHI')
 		--self:RegisterEvent('CHARACTER_POINTS_CHANGED',chimaxchance)
 		--chimaxchance(self,'PLAYER_TALENT_UPDATE')
-		chi.color = color
 		return true
 	end
 end

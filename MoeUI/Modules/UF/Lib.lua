@@ -280,6 +280,7 @@ F.CreateCastingBar = function(frame, unit, sets, basesets)
     castbar.CompleteColor = basesets.CompleteColor--{20/255, 208/255, 0/255}
     castbar.FailColor = basesets.FailColor--{255/255, 12/255, 0/255}
     castbar.ChannelingColor = basesets.ChannelingColor
+	castbar.mystyle = unit
 	
 	local spark = castbar:CreateTexture(nil, "OVERLAY")
     spark:SetDrawLayer("OVERLAY", 7)
@@ -288,8 +289,8 @@ F.CreateCastingBar = function(frame, unit, sets, basesets)
     spark:SetAlpha(1)
 	spark:SetHeight(sets.height)
 	spark:SetWidth(2)
-	spark:SetPoint("TOPLEFT", castbar:GetStatusBarTexture(), "TOPRIGHT", -1, 1)
-    spark:SetPoint("BOTTOMRIGHT", castbar:GetStatusBarTexture(), "BOTTOMRIGHT", 1, -1)
+	--spark:SetPoint("TOPLEFT", castbar:GetStatusBarTexture(), "TOPRIGHT", -1, 1)
+    --spark:SetPoint("BOTTOMRIGHT", castbar:GetStatusBarTexture(), "BOTTOMRIGHT", 1, -1)
     castbar.Spark = spark
 	
 	if sets.border then Lib.CreateBorder(castbar, 1, {0,0,0,0}, {.9,.9,.9,.9}) end

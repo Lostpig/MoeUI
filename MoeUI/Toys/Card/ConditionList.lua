@@ -343,48 +343,7 @@ local SpellList = {
 				end,
 				Priority = 2,
 				CardNo = 9,Text = "轮回之触"
-            },
-            {   --虎眼酒18层以上
-                Condition = function()
-                    if not UnitAffectingCombat("player") then return false end
-                    local name, _, icon, count = UnitBuff("player",select(1,GetSpellInfo(125195)))
-                    return (name and count > 18)
-				end,
-				Priority = 3,
-				CardNo = 9,Text = "虎眼酒"
-            },
-            {   --猛虎掌buff时间少于5秒
-                Condition = function()
-                    if not UnitAffectingCombat("player") then return false end
-					if not UnitCanAttack("player", "target") then return false end
-                    local name,_,_,_,_,_,expires = UnitBuff("player",select(1,GetSpellInfo(125359)))
-                    return (not name or expires - GetTime() < 5)
-				end,
-				Priority = 4,
-				CardNo = 9,Text = "猛虎掌"
-            },
-            {   --旭日不在CD且真气足够
-                Condition = function()
-                    if not UnitAffectingCombat("player") then return false end
-					if not UnitCanAttack("player", "target") then return false end
-                    local xs, xd = GetSpellCooldown(107428)
-					local isUsable, notEnoughMana = IsUsableSpell(107428)
-					return (xs + xd - GetTime() < 1.5 and not notEnoughMana)
-				end,
-				Priority = 5,
-				CardNo = 9,Text = "旭日踢"
-            },
-            {   --怒雷不在CD且真气足够
-                Condition = function()
-                    if not UnitAffectingCombat("player") then return false end
-					if not UnitCanAttack("player", "target") then return false end
-                    local xs, xd = GetSpellCooldown(113656)
-					local isUsable, notEnoughMana = IsUsableSpell(113656)
-					return (xs + xd - GetTime() < 1.5 and not notEnoughMana)
-				end,
-				Priority = 6,
-				CardNo = 9,Text = "怒雷破"
-            },
+            }
         },
     },
     --板

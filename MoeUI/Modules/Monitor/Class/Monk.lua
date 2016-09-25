@@ -45,10 +45,25 @@ local MonkSet = {
         unit = "player",
         width = 228, height = 6, 
         anchor = "TOP", relative = "TOP", x = 0, y = -15,
+		texture = Media.Texture.Blank,
         frequentUpdates = false,
-    }
+    },
+	BrewMasterBar = {
+		unit = "player",
+        width = 232, height = 9, 
+        anchor = "TOP", relative = "TOP", x = 0, y = 0,
+		fontsize = 12
+	}
 }
 local CDSpellList = {
+    [1] = {	--织雾
+		{SpellID =  121253}, -- 醉酿投
+		{SpellID =  115181}, -- 火焰之息
+		{SpellID =  205523}, -- 幻灭猛击
+		{SpellID =  116847}, -- 碧玉疾风
+		{SpellID =  214326}, -- 爆炸酒桶
+		{SpellID =  119582}, -- 活血酒
+    },
     [2] = {	--织雾
 
     },
@@ -76,18 +91,19 @@ local Create = function()
         MM:AddRegion(rname, rset)
     end
     
-    local CDBar    = MM:Spawn("Cooldown",   "MonkRegion", "MonkCDBar", MonkSet.Cooldown, CDSpellList)
-    local ChiBar   = MM:Spawn("ClassIcons", "MonkRegion", "MonkChi",   MonkSet.Chi)
-    --local PowerBar = MM:Spawn("Power"   , "MonkRegion", "MonkPower", MonkSet.Power)
+    local CDBar         = MM:Spawn("Cooldown",      "MonkRegion", "MonkCDBar",     MonkSet.Cooldown, CDSpellList)
+    local ChiBar        = MM:Spawn("ClassIcons",    "MonkRegion", "MonkChi",       MonkSet.Chi)
+    local BrewMasterBar = MM:Spawn("BrewMasterBar", "MonkRegion", "BrewMasterBar", MonkSet.BrewMasterBar)
+	StyleBar(BrewMasterBar)
     
     ChiBar.PostChange = StylePoint
     --PowerBar.PostChange = StyleBar
 end
 local Start = function()
-    MM:EnableElements("MonkRegion", "MonkCDBar", "MonkChi")
+    MM:EnableElements("MonkRegion", "MonkCDBar", "MonkChi", "BrewMasterBar")
 end
 local Pause = function()
-    MM:DisableElements("MonkRegion", "MonkCDBar", "MonkChi")
+    MM:DisableElements("MonkRegion", "MonkCDBar", "MonkChi", "BrewMasterBar")
 end
 
 MM:AddClassSet("MONK", Create, Start, Pause)

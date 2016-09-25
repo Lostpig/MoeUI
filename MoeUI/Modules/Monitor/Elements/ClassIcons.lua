@@ -16,6 +16,7 @@ do
 	if (PClass == 'MONK') then
 		ClassPowerID = SPELL_POWER_CHI
 		ClassPowerType = "CHI"
+		ClassPowerSpec = 3
 	elseif (PClass == 'PALADIN') then
 		ClassPowerID = SPELL_POWER_HOLY_POWER
 		ClassPowerType = "HOLY_POWER"

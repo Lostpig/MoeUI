@@ -1,0 +1,14 @@
+## Interface: 70100
+## Title: |cff3efe22醉拳监视条|r
+## Author: Lostpigz
+## Notes: 武僧-酒仙-醉拳监视条
+## Version: 1.0
+## SavedVariables: BMBDB
+
+libs\embeds.xml
+
+functions.lua
+options.lua
+bar.lua
+boot.lua
+

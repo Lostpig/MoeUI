@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+﻿## Interface: 70000
 ## Title: |cffe7cf1bMoe|r UI Dark主题包
 ## Notes: MoeUI Dark主题包
 ## Version: 1.00

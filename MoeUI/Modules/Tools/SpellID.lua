@@ -34,6 +34,14 @@ hooksecurefunc("SetItemRef", function(link, text, button, chatFrame)
 	end
 end)
 
+GameTooltip:HookScript("OnTooltipSetItem", function(self)
+	local _, link = self:GetItem()
+	if link then
+		self:AddDoubleLine("物品ID:", string.match(link, "|Hitem:(%d+):"))
+		self:Show()
+	end
+end)
+
 GameTooltip:HookScript("OnTooltipSetSpell", function(self)
 	local id = select(3,self:GetSpell())
 	if id then

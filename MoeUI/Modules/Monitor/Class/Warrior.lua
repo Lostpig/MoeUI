@@ -24,8 +24,8 @@ local MonitorSet = {
         }
     }, 
     Cooldown = {
-        size = 25, margin = 0, spacing = 4, column = 8,
-        anchor = "BOTTOM", relative = "BOTTOM", x = 0, y = 16,
+        size = 28, margin = 0, spacing = 4, column = 8,
+        anchor = "BOTTOM", relative = "BOTTOM", x = 0, y = 15,
         frequentUpdates = false
     },
     Power = {
@@ -36,12 +36,21 @@ local MonitorSet = {
     }
 }
 local CDSpellList = {
-	--[1] = {	--ÎäÆ÷    },
-    --[2] = {	--¿ñÅ­	  },
+	[1] = {	--ÎäÆ÷    
+		{SpellID =   12294}, -- ÖÂËÀ´ò»÷
+		{SpellID =  167105}, -- ¾ÞÈË´ò»÷
+		{SpellID =    5308}, -- Õ¶É±
+	},
+    [2] = {	--¿ñÅ­	  
+		{SpellID =   23881}, -- ÊÈÑª
+		{SpellID =   85288}, -- Å­»÷
+		{SpellID =    5308}, -- Õ¶É±
+	},
     [3] = {   	--·À»¤    
 		{SpellID =   2565}, -- ¶ÜÅÆ¸ñµ²
         {SpellID =  23922}, -- ¶ÜÅÆÃÍ»÷
         {SpellID =  34428}, -- ³ËÊ¤×·»÷
+		{SpellID =   6572}, -- ¸´³ð
 	},
 }
 

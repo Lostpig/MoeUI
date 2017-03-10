@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+﻿## Interface: 70000
 ## Title: |cffe7cf1bMoe|r Card LoveLive主题包
 ## Notes: MoeUI 翻转提示小插件 LoveLive主题包
 ## Version: 1.00

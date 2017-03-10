@@ -216,7 +216,11 @@ local function SetMapInfos(theme)
 		},
 		text = function()
 			local x,y = GetPlayerMapPosition("player")
-			return format("%.1f, %.1f",x*100,y*100)
+			if x then
+				return format("%.1f, %.1f",x*100,y*100)
+			else
+				return ''
+			end
 		end,
 	})
 end

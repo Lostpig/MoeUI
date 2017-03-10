@@ -1,8 +1,8 @@
 local addon, namespace = ...
 local Modules = namespace.Moe.Modules
 local Media = namespace.Moe.Media
+local Lib = namespace.Moe.Lib
 local MM = Modules:Get("Monitor")
-local Media = namespace.Moe.Media
 
 local PowerBarColor = PowerBarColor
 
@@ -25,6 +25,10 @@ local Update = function(self, event, unit)
 	self:SetMinMaxValues(0, max)
     self:SetValue(cur)
 	
+	if (self.Set.text and self.Set.text.enable) then
+		self.text:SetText(cur)
+	end
+	
 	if self.PostUpdate then return self:PostUpdate(cur, max, unit) end
 end
 local Change = function(self, event, unit)
@@ -34,6 +38,7 @@ local Change = function(self, event, unit)
     self:SetStatusBarColor(info.r, info.g, info.b)
     
     if self.PostChange then self:PostChange(unit, powerType) end
+	(self.Override or Update)(self, event, unit)
 end
 local Event = function(self, event, ...)
     if event == "UNIT_POWER_FREQUENT" or event == "UNIT_POWER" then
@@ -70,6 +75,12 @@ local Create = function(region, name, sets)
     Bar:SetWidth(sets.width)
     Bar:SetStatusBarTexture(sets.texture or Media.Bar.Armory)	
 	Bar:GetStatusBarTexture():SetHorizTile(false)
+	
+	if (sets.text and sets.text.enable) then
+		Bar.text = Lib.EasyFontString(Bar, Media.Fonts.Default, sets.text.fontsize, "THINOUTLINE")
+		Bar.text:SetPoint('CENTER', 0, 0)
+		Bar.text:SetText(nil)
+	end
     
     Bar.Set = sets
     if not Bar.Set.unit then Bar.Set.unit = "player" end

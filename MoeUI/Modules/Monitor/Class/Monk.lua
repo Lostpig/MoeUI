@@ -56,16 +56,23 @@ local MonkSet = {
 	}
 }
 local CDSpellList = {
-    [1] = {	--织雾
+    [1] = {	--酒仙
 		{SpellID =  121253}, -- 醉酿投
 		{SpellID =  115181}, -- 火焰之息
-		{SpellID =  205523}, -- 幻灭猛击
+		{SpellID =  119582}, -- 活血酒
+		--{SpellID =  205523}, -- 幻灭猛击
+		{SpellID =  115399}, -- 玄牛酒
 		{SpellID =  116847}, -- 碧玉疾风
 		{SpellID =  214326}, -- 爆炸酒桶
-		{SpellID =  119582}, -- 活血酒
+		{SpellID =  115072}, -- 移花接木
     },
     [2] = {	--织雾
-
+		{SpellID =  115151}, -- 复苏之雾
+		{SpellID =  123986}, -- 真气爆裂
+		{SpellID =  124081}, -- 禅意波
+		{SpellID =  197945}, -- 踏雾而行
+		{SpellID =  116680}, -- 雷光茶
+		{SpellID =  205406, Force = true}, -- 神龙之赐
     },
     [3] = { --踏风
         {SpellID =  107428}, -- 旭日东升踢
@@ -93,17 +100,17 @@ local Create = function()
     
     local CDBar         = MM:Spawn("Cooldown",      "MonkRegion", "MonkCDBar",     MonkSet.Cooldown, CDSpellList)
     local ChiBar        = MM:Spawn("ClassIcons",    "MonkRegion", "MonkChi",       MonkSet.Chi)
-    local BrewMasterBar = MM:Spawn("BrewMasterBar", "MonkRegion", "BrewMasterBar", MonkSet.BrewMasterBar)
-	StyleBar(BrewMasterBar)
+    --local BrewMasterBar = MM:Spawn("BrewMasterBar", "MonkRegion", "BrewMasterBar", MonkSet.BrewMasterBar)
+	--StyleBar(BrewMasterBar)
     
     ChiBar.PostChange = StylePoint
     --PowerBar.PostChange = StyleBar
 end
 local Start = function()
-    MM:EnableElements("MonkRegion", "MonkCDBar", "MonkChi", "BrewMasterBar")
+    MM:EnableElements("MonkRegion", "MonkCDBar", "MonkChi")
 end
 local Pause = function()
-    MM:DisableElements("MonkRegion", "MonkCDBar", "MonkChi", "BrewMasterBar")
+    MM:DisableElements("MonkRegion", "MonkCDBar", "MonkChi")
 end
 
 MM:AddClassSet("MONK", Create, Start, Pause)

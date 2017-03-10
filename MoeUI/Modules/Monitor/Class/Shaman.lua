@@ -33,6 +33,10 @@ local MonitorSet = {
         width = 228, height = 8, 
         anchor = "TOP", relative = "TOP", x = 0, y = -2,
         frequentUpdates = false,
+		text = {
+			enable = true,
+			fontsize = 14
+		}
     }
 }
 
@@ -41,10 +45,17 @@ local CDSpellList = {
     [2] = {	--增强
         {SpellID = 201897}, -- 石拳
         {SpellID = 193796}, -- 火舌
-        {SpellID = 197214}, -- 火舌
+        {SpellID = 197214}, -- 裂地
         {SpellID =  17364}, -- 风暴打击
+		{SpellID = 187874}, -- 毁灭闪电
+		{SpellID = 204945, Force = true}, -- 毁灭闪电
     },
-    --[3] = {   --恢复    },
+    [3] = {   --恢复    
+		{SpellID =  61295}, -- 激流
+		{SpellID =   5394}, -- 治疗之泉
+		{SpellID = 207778}, -- 女王的恩赐
+		{SpellID =  73920}, -- 治疗之雨
+	},
 }
 
 local StyleBar = function(self, unit, powertype)

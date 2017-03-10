@@ -280,6 +280,7 @@ F.CreateCastingBar = function(frame, unit, sets, basesets)
     castbar.CompleteColor = basesets.CompleteColor--{20/255, 208/255, 0/255}
     castbar.FailColor = basesets.FailColor--{255/255, 12/255, 0/255}
     castbar.ChannelingColor = basesets.ChannelingColor
+	castbar.NotInterruptColor = basesets.NotInterruptColor
 	castbar.mystyle = unit
 	
 	local spark = castbar:CreateTexture(nil, "OVERLAY")
@@ -327,7 +328,8 @@ F.CreateCastingBar = function(frame, unit, sets, basesets)
 		castbar.Lag = Lib.EasyFontString(castbar, sets.lag.font, sets.lag.size, sets.lag.flag)
 		castbar.Lag:SetPoint(sets.lag.anchor, castbar, sets.lag.relative, sets.lag.x, sets.lag.y)
 		castbar.Lag:SetJustifyH(sets.lag.align or "RIGHT")
-		castbar.Lag:Hide()
+		castbar.Lag:SetTextColor(1, .2, .1)
+		--castbar.Lag:Hide()
 		
 		castbar.unit = unit
 		castbar:RegisterEvent("UNIT_SPELLCAST_SENT")
@@ -339,7 +341,7 @@ F.CreateCastingBar = function(frame, unit, sets, basesets)
     castbar.PostChannelStart = Cast.PostCastStart
     castbar.PostCastStop = Cast.PostCastStop
     castbar.PostChannelStop = Cast.PostChannelStop
-    --castbar.PostCastFailed = Cast.PostCastFailed
+    castbar.PostCastFailed = Cast.PostCastFailed
     castbar.PostCastInterrupted = Cast.PostCastFailed
     castbar.PostCastInterruptible = Cast.PostCastInterruptible
     castbar.PostCastNotInterruptible = Cast.PostCastNotInterruptible

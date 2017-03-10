@@ -9,6 +9,14 @@ MoeUF.Cast = Cast
 local InterruptColor  = { 95/255, 182/255, 255/255, 1}
 local NormalColor     = {244/255, 182/255, 96/255, 1}
 
+local setInterruptible = function (self, unit, notinterrupt) 
+	if (notinterrupt) then
+		self:SetStatusBarColor(unpack(self.NotInterruptColor))
+	else 
+		self:SetStatusBarColor(unpack(self.CastingColor))
+	end
+end
+
 Cast.ChannelTickList = {
 	-- warlock
 	[GetSpellInfo(689)] = 5, -- drain life
@@ -30,10 +38,12 @@ Cast.SetTicks = function(castBar, ticknum)
 		for k = 1, ticknum do
 			if not ticks[k] then
 				ticks[k] = castBar:CreateTexture(nil, 'OVERLAY')
-				ticks[k]:SetTexture(castBar:GetStatusBarTexture())
-				ticks[k]:SetVertexColor(0, 0, 0)
+				ticks[k]:SetTexture(castBar.Spark:GetTexture())
+				ticks[k]:SetAlpha(1)
+				ticks[k]:SetVertexColor(1, 1, .5)
 				ticks[k]:SetWidth(1)
 				ticks[k]:SetHeight(castBar:GetHeight())
+				Lib.Flip(ticks[k], "VERTICAL")
 			end
 			ticks[k]:ClearAllPoints()
 			ticks[k]:SetPoint("CENTER", castBar, "LEFT", delta * k, 0 )
@@ -86,7 +96,9 @@ Cast.OnCastbarUpdate = function(self, elapsed)
 end
 Cast.OnCastSent = function(self, event, unit, spell, rank)
 	if self.unit ~= unit or not self.SafeZone then return end
+	
 	self.SafeZone.sendTime = GetTime()
+	--print('sent:' .. self.SafeZone.sendTime)
 end
 Cast.PostCastStart = function(self, unit, name, rank, text)
 	self:SetAlpha(1.0)
@@ -96,12 +108,16 @@ Cast.PostCastStart = function(self, unit, name, rank, text)
         self:SetStatusBarColor(unpack(self.casting and self.CastingColor or self.ChannelingColor))
 		self.SafeZone.timeDiff = GetTime() - self.SafeZone.sendTime
 		self.SafeZone.timeDiff = self.SafeZone.timeDiff > self.max and self.max or self.SafeZone.timeDiff
+		
+		--print('start:' .. GetTime())
+		
         if (self.SafeZone.timeDiff > 0) then
             self.SafeZone:SetWidth(self:GetWidth() * self.SafeZone.timeDiff / self.max)
             self.SafeZone:Show()
         else 
             self.SafeZone:Hide()
         end
+		
 		if self.casting then
 			Cast.SetTicks(self, 0)
 		else
@@ -110,9 +126,13 @@ Cast.PostCastStart = function(self, unit, name, rank, text)
 			Cast.SetTicks(self, self.channelingTicks)
 		end
 	elseif (unit == "target" or unit == "focus") then
-		self:SetStatusBarColor(InterruptColor[1],InterruptColor[2],InterruptColor[3],InterruptColor[4])
+		if self.interrupt then
+			setInterruptible(self, unit, self.interrupt)
+		else
+			self:SetStatusBarColor(unpack(self.CastingColor))
+		end
 	else
-		self:SetStatusBarColor(NormalColor[1],NormalColor[2],NormalColor[3],NormalColor[4])
+		self:SetStatusBarColor(unpack(self.CastingColor))
 	end
 end
 Cast.PostCastStop = function(self, unit, name, rank, castid)
@@ -137,21 +157,14 @@ Cast.PostCastFailed = function(self, event, unit, name, rank, castid)
 	self:Show()
 end
 Cast.PostCastInterruptible = function(self, unit)
-    --local r, g, b = unpack(InterruptColor)
-    --self:SetStatusBarColor(r , g , b , .9)
-	self.Text:SetTextColor(1, 1, 1)
-    --print("可打断")
+	setInterruptible(self, unit, false)
 end
 Cast.PostCastNotInterruptible= function(self, unit)
-    local r, g, b
     if UnitIsPlayer(unit) and UnitIsFriend(unit, "player") then
-        r, g, b = 1, 1, 1
+		--doNothing
     else
-        r, g, b = 1, .15, .15
+        setInterruptible(self, unit, true)
     end
-	self.Text:SetTextColor(r, g, b)
-    --self:SetStatusBarColor(r , g , b , .9)
-    --print("不可打断")
 end
 
 

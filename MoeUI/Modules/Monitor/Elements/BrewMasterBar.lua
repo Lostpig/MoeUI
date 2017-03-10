@@ -3,7 +3,6 @@ local Modules = namespace.Moe.Modules
 local Media = namespace.Moe.Media
 local Lib = namespace.Moe.Lib
 local MM = Modules:Get("Monitor")
-local Media = namespace.Moe.Media
 
 local colors = {
 	[1] = { r = 0.05, g = 1, b = 0.2 },

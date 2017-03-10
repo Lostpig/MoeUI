@@ -30,6 +30,16 @@ local Path = function(self, ...)
 	return (self.ChiBar.Override or Update) (self, ...)
 end
 
+local isvisable = function(self,...)
+	local ptt = GetSpecialization()
+	local chi = self.ChiBar
+	if(ptt and ptt == 3) then -- player has balance spec
+		chi:Show()
+	else
+		chi:Hide()
+	end
+end
+
 --/dump Moe_UF_player.ChiBar[1]:GetStatusBarTexture():GetHorizTile()
 local newpoint = function(bar)
 	local point = CreateFrame("StatusBar", nil, bar)

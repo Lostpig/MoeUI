@@ -5,4 +5,5 @@
 	<Script file="Minimap.lua" />
     <Script file="SpellID.lua" />
     <Script file="Talent.lua" />
+	<Script file="PaperDollStats.lua" />
 </Ui>

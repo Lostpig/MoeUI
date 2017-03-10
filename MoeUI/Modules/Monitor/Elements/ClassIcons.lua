@@ -41,7 +41,7 @@ end
 local NewPoint = function(bar, index)
     local Set = bar.Set
     local r, g, b = 1,1,1
-    print(index)
+    --print(index)
     if Set.customcolor and Set.customcolor[index] then
         r, g, b = Set.customcolor[index].r, Set.customcolor[index].g, Set.customcolor[index].b
     elseif Set.customcolor and Set.customcolor.r then

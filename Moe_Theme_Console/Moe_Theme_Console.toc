@@ -1,0 +1,9 @@
+﻿## Interface: 70000
+## Title: |cffe7cf1bMoe|r UI 手柄界面包
+## Notes: MoeUI 手柄界面包
+## Version: 1.00
+## Author: Lostpigz
+## X-Email:zjxszqc@Live.com
+## RequiredDeps: MoeUI
+
+ConsoleUI.lua
